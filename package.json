@@ -20,8 +20,6 @@
     "_generateBundleAnalyzerFile": "webpack-bundle-analyzer build/bundle-stats.json -m static -r build/bundle-stats.html -O",
     "_serve": "cd build && ws --spa index.html --port 58975 -z",
     "_prettier": "prettier --write src/**/*.js --config prettier.config.js",
-    "_eslint-fix": "eslint -c eslintrc.js --fix .",
-    "_eslint": "eslint -c eslintrc.js .",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -43,7 +41,6 @@
     ]
   },
   "devDependencies": {
-    "eslint": "6.1.0",
     "husky": "3.0.3",
     "jscpd": "2.0.15",
     "npm-run-all": "4.1.5",
