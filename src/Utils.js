@@ -3,7 +3,7 @@ export function createMatrix(w,h){
     while(h--){
         matrix.push(new Array(w).fill(0))
     }
-            return matrix;
+        return matrix;
 }
 
 export function createPieces(){

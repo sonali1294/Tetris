@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Board from './Components/Board';
 
+
 import { createMatrix , createPieces} from './Utils';
 
 class App extends Component {
@@ -12,13 +13,14 @@ class App extends Component {
       
   }
 
-  update = (time = 0) => {
-    requestAnimationFrame(this.update);
+  // update = (time = 0) => {
+  //     requestAnimationFrame(this.update);
 
-  }
-  componentDidMount(){
-    this.update();
-  }
+  // }
+  // componentDidMount(){
+  //   this.update();
+  // }
+
 
   render(){
     return (
