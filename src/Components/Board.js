@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-// import { createMatrix } from '../Utils';
 import { Game } from '../Logic/Game';
+import { Piece } from '../Logic/Piece';
 
 class Board extends Component {
   constructor() {
@@ -17,6 +17,7 @@ class Board extends Component {
       });
     });
     window.game = game;
+    // this.generatePieceOnBoard(currentPiece)
   }
 
   setColours = (num) => {
@@ -24,6 +25,13 @@ class Board extends Component {
       ? (num === 'R' ? 'redClass' : null) || (num === 'P' ? 'purpleClass' : null) || (num === 'G' ? 'greenClass' : null)
       : 'blackClass';
   };
+
+  // generatePieceOnBoard(currentPiece) {
+  //   for (var i = 0; i < this.data.length; i++) {
+  //     for (var j = )
+  //   }
+
+  // }
 
   // draw(){
   //     this.props.matrix.forEach( (row, y) => {
