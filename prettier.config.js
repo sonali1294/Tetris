@@ -5,10 +5,10 @@ module.exports = {
   singleQuote: true, // Use single quotes instead of double quotes.
   jsxSingleQuote: true,
   bracketSpacing: true,
-  arrowParens: 'always',
-  proseWrap: 'always',
-  htmlWhitespaceSensitivity: 'ignore',
-  endOfLine: 'lf',
+  arrowParens: "always",
+  proseWrap: "always",
+  htmlWhitespaceSensitivity: "ignore",
+  endOfLine: "lf",
 
   /**
    * Print trailing commas wherever possible.
@@ -17,7 +17,7 @@ module.exports = {
    *   - "es5" - trailing commas where valid in ES5 (objects, arrays, etc)
    *   - "all" - trailing commas wherever possible (function arguments)
    */
-  trailingComma: 'none',
+  trailingComma: "none",
   /**
    * Do not print spaces between brackets.
    * If true, puts the > of a multi-line jsx element at the end of the last line instead of being
@@ -30,7 +30,7 @@ module.exports = {
    *   - "flow"
    *   - "babylon"
    */
-  parser: 'typescript',
+  parser: "typescript",
   /**
    * Do not print semicolons, except at the beginning of lines which may need them.
    * Valid options:

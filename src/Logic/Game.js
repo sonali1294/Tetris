@@ -19,8 +19,10 @@ export class Game {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 0]
   ];
+  //cons??
+  createEmptyBoard() {}
   isLastRowFull() {
     return 'Yes Last row is full';
   }
@@ -30,7 +32,7 @@ export class Game {
   sendUpdate() {
     this.callback();
   }
-  killLastRow() {
+  checkFor() {
     this.data[0][0] = 'R';
     this.sendUpdate();
   }
