@@ -4,7 +4,7 @@ import Board from './Components/Board';
 
 import { createMatrix , createPieces} from './Utils';
 
-class App extends Component {
+class App extends         Component {
   constructor(){
     super();
     this.matrix = createMatrix(10,20);
