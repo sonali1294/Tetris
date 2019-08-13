@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createMatrix } from '../Utils';
+// import { createMatrix } from '../Utils';
 import { Game } from '../Logic/Game';
 
 class Board extends Component {
@@ -10,6 +10,7 @@ class Board extends Component {
     this.state = {
       data: game.data
     };
+    game.isAnyRowFull();
     game.onUpdate(() => {
       this.setState({
         data: game.data
@@ -19,8 +20,8 @@ class Board extends Component {
   }
 
   setColours = (num) => {
-    return num != 0
-      ? (num == 'R' ? 'redClass' : null) || (num == 'P' ? 'purpleClass' : null) || (num == 'G' ? 'greenClass' : null)
+    return num !== 0
+      ? (num === 'R' ? 'redClass' : null) || (num === 'P' ? 'purpleClass' : null) || (num === 'G' ? 'greenClass' : null)
       : 'blackClass';
   };
 
@@ -52,6 +53,7 @@ class Board extends Component {
   //     this.draw();
   // }
 
+  componentDidMount() {}
   render() {
     return (
       <table>
