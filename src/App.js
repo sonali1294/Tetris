@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import Board from './Components/Board';
 
-
-import { createMatrix , createPieces} from './Utils';
+import { createMatrix, createPieces } from './Utils';
 
 class App extends Component {
-  constructor(){
+  constructor() {
     super();
-    this.matrix = createMatrix(10,20);
+    this.matrix = createMatrix(10, 20);
 
-    this.piece= createPieces();
-      
+    this.piece = createPieces();
   }
 
   // update = (time = 0) => {
@@ -21,18 +19,13 @@ class App extends Component {
   //   this.update();
   // }
 
-
-  render(){
+  render() {
     return (
-      <div className="App">
-        <Board 
-          matrix={this.matrix}
-          piece={this.piece}
-          />
+      <div className='App'>
+        <Board matrix={this.matrix} piece={this.piece} />
       </div>
     );
   }
-  
 }
 
 export default App;
