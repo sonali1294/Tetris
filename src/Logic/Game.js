@@ -4,11 +4,12 @@ export class Game {
   constructor() {
     this.currentPiece = {
       piece: new Piece.getRandomPiece(),
-      x: 5,
+      x: 3,
       y: 2
     };
+
     this.data = [
-      [0, 0, 0, 'R', 0, 0, 0, 0, 0, 0],
+      [0, 'R', 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -27,7 +28,7 @@ export class Game {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R']
     ];
     window.piece = new Piece();
   }
@@ -35,20 +36,33 @@ export class Game {
   pasteCurrentPieceOnBoard() {
     this.currentPiece.piece.shapeData.map((row, i) => {});
   }
+  pasteCurrentPiece() {
+    for (var r = 0; r < this.currentPiece.piece.shapeData.length; r++) {
+      var a = this.currentPiece.piece.shapeData[r];
+      for (var c = 0; c < a.length; c++) {
+        // console.log('a[' + r + '][' + c + '] = ' + a[c]);
+        if (a[c] === 1) {
+          console.log('a[' + r + '][' + c + ']  ');
+          var x = this.currentPiece.x + c;
+          var y = this.currentPiece.y + r;
+          console.log('x', x, 'y', y);
+        }
+      }
+    }
+  }
 
   createEmptyBoard() {}
 
   isAnyRowFull() {
-    console.log(this.data.length);
-    for (var i = 0; i < this.data.length - 1; i++) {
-      if (this.data[i].includes(0)) {
-        console.log('0');
-      } else {
-        console.log('no 0');
+    for (var i = 1; i < this.data.length; i++) {
+      if (!this.data[i].includes(0)) {
+        this.data[i].splice(0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       }
     }
   }
-  pasteCurrentPiece() {}
+
+  checkIfNextRowIsAvailable() {}
+
   onUpdate(callback) {
     this.callback = callback;
   }
