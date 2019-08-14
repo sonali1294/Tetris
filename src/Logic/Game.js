@@ -77,6 +77,37 @@ export class Game {
     this.sendUpdate();
   }
 
+  canCurrentPieceMoveRight() {
+    //remove piece
+    this.removeCurrentPiece();
+    //update x by 1 position
+    this.currentPiece.x = this.currentPiece.x + 1;
+    var isPastable = this.isCurrentPiecePastable();
+    //UnDo
+    this.currentPiece.x = this.currentPiece.x - 1;
+    this.pasteCurrentPiece();
+    return isPastable;
+  }
+  canCurrentPieceMoveLeft() {
+    //remove piece
+    this.removeCurrentPiece();
+    //update x by 1 position
+    this.currentPiece.x = this.currentPiece.x - 1;
+    var isPastable = this.isCurrentPiecePastable();
+    //UnDo
+    this.currentPiece.x = this.currentPiece.x + 1;
+    this.pasteCurrentPiece();
+    return isPastable;
+  }
+
+  canCurrentPieceRotate() {
+    //ToDo
+  }
+
+  canCurrentPieceMoveDown() {
+    //ToDo
+  }
+
   isRowFull(rowNum) {
     return this.data[rowNum].includes(0) !== true;
   }

@@ -41,6 +41,7 @@ export class Piece {
   }
   shiftRight() {}
   shiftLeft() {}
+
   setColor(color) {
     this.shapeData.map((row, y) => {
       row.map((val, x) => {
