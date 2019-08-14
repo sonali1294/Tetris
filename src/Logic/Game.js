@@ -46,9 +46,6 @@ export class Game {
     }
   }
 
-  // var x = this.currentPiece.x + this.currentPiece.piece.shapeData[r][0];
-  // var y = this.currentPiece.y + this.currentPiece.piece.shapeData[r][1];
-
   isAnyRowFull() {
     for (var i = 1; i < this.data.length; i++) {
       if (!this.data[i].includes(0)) {
