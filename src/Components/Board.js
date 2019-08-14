@@ -24,9 +24,16 @@ class Board extends Component {
   }
 
   setColours = (num) => {
-    return num !== 0
-      ? (num === 'R' ? 'redClass' : null) || (num === 'P' ? 'purpleClass' : null) || (num === 'G' ? 'greenClass' : null)
-      : 'blackClass';
+    var colorSymbolToClassMap = {
+      R: 'redClass',
+      P: 'purpleClass',
+      B: 'blueClass',
+      O: 'orangeClass',
+      Y: 'yellowClass',
+      G: 'greenClass',
+      0: 'blackClass'
+    };
+    return colorSymbolToClassMap[num];
   };
 
   render() {

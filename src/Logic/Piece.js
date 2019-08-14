@@ -1,8 +1,5 @@
 var possibleColors = ['red', 'green', 'blue', 'purple', 'orange', 'yellow'];
 var possibleShapes = ['z', 's', 'l', 'o', 't', 'p', 'i', 'j'];
-var colorSymbolToClassMap = {
-  R: 'redClass'
-};
 
 export class Piece {
   constructor(type, color) {

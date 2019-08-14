@@ -42,8 +42,6 @@ export class Game {
       });
       x++;
     });
-    console.log(this.currentPiece.x);
-    console.log(this.data[this.currentPiece.y][this.currentPiece.x]);
   }
 
   createEmptyBoard() {}
