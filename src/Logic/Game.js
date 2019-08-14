@@ -32,10 +32,6 @@ export class Game {
     window.piece = new Piece();
   }
 
-  pasteCurrentPieceOnBoard() {
-    this.currentPiece.piece.shapeData.map((row, i) => {});
-  }
-
   createEmptyBoard() {}
 
   isAnyRowFull() {

@@ -1,4 +1,4 @@
-var possibleColors = ['red', 'green', 'blue'];
+var possibleColors = ['red', 'green', 'blue', 'purple', 'orange', 'yellow'];
 var possibleShapes = ['z', 's', 'l', 'o', 't', 'p', 'i', 'j'];
 
 export class Piece {
@@ -49,7 +49,10 @@ export class Piece {
   }
   shiftRight() {}
   shiftLeft() {}
-  setColor(color) {}
+  setColor(color) {
+    var randomColour = possibleColors[Math.floor(Math.random() * possibleColors.length)];
+    return randomColour;
+  }
 }
 
 Piece.getRandomPiece = function() {
