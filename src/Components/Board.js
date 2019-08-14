@@ -24,6 +24,7 @@ class Board extends Component {
   }
 
   setColours = (num) => {
+    console.log(num);
     var colorSymbolToClassMap = {
       R: 'redClass',
       P: 'purpleClass',

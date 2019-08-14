@@ -56,9 +56,7 @@ export class Piece {
 Piece.getRandomPiece = function() {
   var randomShapeLetter = possibleShapes[Math.floor(Math.random() * possibleShapes.length)];
   var randomShapeColor = possibleColors[Math.floor(Math.random() * possibleColors.length)];
-  // console.log('random color is', randomShapeColor);
   var s = new Piece(randomShapeLetter, randomShapeColor);
-  // console.log('random shape is', s);
   return s;
 };
 console.log('test', Piece.getRandomPiece());
