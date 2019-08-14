@@ -11,14 +11,6 @@ class App extends Component {
     this.piece = createPieces();
   }
 
-  // update = (time = 0) => {
-  //     requestAnimationFrame(this.update);
-
-  // }
-  // componentDidMount(){
-  //   this.update();
-  // }
-
   render() {
     return (
       <div className='App'>

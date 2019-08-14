@@ -4,47 +4,61 @@ export class Game {
   constructor() {
     this.currentPiece = {
       piece: new Piece.getRandomPiece(),
-      x: 5,
+      x: 3,
       y: 2
     };
+
     this.data = [
-      [0, 0, 0, 'R', 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 'R', 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 'R', 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 'R', 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 'P', 'P', 0, 0],
-      [0, 0, 0, 0, 0, 0, 'P', 'P', 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 'G', 'G', 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 'G', 'G', 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 0]
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 'G', 'G', 0, 0],
+      [0, 0, 0, 0, 0, 0, 'G', 'G', 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 0, 'R']
     ];
   }
-
-  //cons??
-  createEmptyBoard() {}
-
-  isAnyRowFull() {
-    console.log(this.data.length);
-    for (var i = 0; i < this.data.length - 1; i++) {
-      if (this.data[i].includes(0)) {
-        console.log('0');
-      } else {
-        console.log('no 0');
+  pasteCurrentPiece() {
+    for (var r = 0; r < this.currentPiece.piece.shapeData.length; r++) {
+      var cube = this.currentPiece.piece.shapeData[r];
+      for (var c = 0; c < cube.length; c++) {
+        // console.log('cube[' + r + '][' + c + '] = ' + cube[c]);
+        if (cube[c] === 1) {
+          console.log('cube[' + r + '][' + c + ']  ');
+          var x = this.currentPiece.x + c;
+          var y = this.currentPiece.y + r;
+          console.log('xy coordinates', x, y);
+        }
       }
     }
   }
-  pasteCurrentPiece() {}
+
+  // var x = this.currentPiece.x + this.currentPiece.piece.shapeData[r][0];
+  // var y = this.currentPiece.y + this.currentPiece.piece.shapeData[r][1];
+
+  isAnyRowFull() {
+    for (var i = 1; i < this.data.length; i++) {
+      if (!this.data[i].includes(0)) {
+        this.data[i].splice(0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+      }
+    }
+  }
+
+  checkIfNextRowIsAvailable() {}
+
   onUpdate(callback) {
     this.callback = callback;
   }

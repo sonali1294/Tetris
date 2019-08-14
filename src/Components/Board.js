@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
 import { Game } from '../Logic/Game';
-import { Piece } from '../Logic/Piece';
+// import { Piece } from '../Logic/Piece';
 
 class Board extends Component {
   constructor() {
     super();
-    // this.draw= this.draw.bind(this);
     var game = new Game();
     this.state = {
-      data: game.data
+      data: game.data,
+      piece: game.currentPiece.piece.shapeData
     };
     game.isAnyRowFull();
+    game.pasteCurrentPiece();
+
     game.onUpdate(() => {
       this.setState({
-        data: game.data
+        data: game.data,
+        piece: game.currentPiece.piece.shapeData
       });
     });
     window.game = game;
-    // this.generatePieceOnBoard(currentPiece)
+    // console.log('game', game);
+    // console.log('piece', game.currentPiece.piece.shapeData);
   }
 
   setColours = (num) => {
@@ -26,55 +30,34 @@ class Board extends Component {
       : 'blackClass';
   };
 
-  // generatePieceOnBoard(currentPiece) {
-  //   for (var i = 0; i < this.data.length; i++) {
-  //     for (var j = )
-  //   }
-
-  // }
-
-  // draw(){
-  //     this.props.matrix.forEach( (row, y) => {
-  //         row.forEach( (col, x) => {
-  //             this.ctx.fillStyle = (col === 1) ? 'Red' : 'Black';
-  //             this.ctx.fillRect(x,y,1,1);
-  //         })
-  //     })
-
-  //     this.props.piece.forEach( (row,y) => {
-  //         row.forEach( (col, x) => {
-  //             this.ctx.fillStyle = (col === 1) ? 'Red' : 'Black';
-  //             this.ctx.fillRect(x,y,1,1);
-  //         })
-  //     })
-
-  // }
-
-  // componentDidMount(){
-  //     this.canvas = this.refs.canvas;
-  //     if(this.canvas){
-  //         this.ctx = this.canvas.getContext('2d');
-  //         this.ctx.fillStyle = 'black';
-  //         this.ctx.scale(20,20);
-  //         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-  //     }
-  //     this.draw();
-  // }
-
-  componentDidMount() {}
   render() {
     return (
-      <table>
-        <tbody>
-          {this.state.data.map((numList, i) => (
-            <tr key={i}>
-              {numList.map((num, j) => (
-                <td className={`block ${this.setColours(num)}`} key={j}></td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div>
+        <table>
+          <tbody>
+            {this.state.data.map((numList, i) => (
+              <tr key={i}>
+                {numList.map((num, j) => (
+                  <td className={`block ${this.setColours(num)}`} key={j}></td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <br></br>
+        <p>Shapes </p>
+        <table>
+          <tbody>
+            {this.state.piece.map((numList, i) => (
+              <tr key={i}>
+                {numList.map((num, j) => (
+                  <td className={`block ${this.setColours(num)}`} key={j}></td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }

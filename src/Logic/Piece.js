@@ -1,9 +1,8 @@
-var possibleColors = ['red', 'green', 'blue'];
-var possibleShapes = ['z', 's']; //, 'l', 'j', 'o', 't', 'p', 'i'];
+var possibleColors = ['red', 'green', 'blue', 'purple', 'orange'];
+var possibleShapes = ['z', 's', 'j', 't', 'l', 'o', 'i'];
 
 export class Piece {
   constructor(type, color) {
-    console.log('type', type);
     switch (type) {
       case 's':
         this.shapeData = [[0, 1, 1], [1, 1, 0], [0, 0, 0]];
@@ -11,18 +10,26 @@ export class Piece {
       case 'z':
         this.shapeData = [[1, 1, 0], [0, 1, 1], [0, 0, 0]];
         break;
+      case 'j':
+        this.shapeData = [[0, 1, 0], [0, 1, 0], [1, 1, 0]];
+        break;
+      case 't':
+        this.shapeData = [[0, 0, 0], [1, 1, 1], [0, 1, 0]];
+        break;
+      case 'l':
+        this.shapeData = [[0, 1, 0], [0, 1, 0], [0, 1, 1]];
+        break;
+      case 'o':
+        this.shapeData = [[0, 0, 0, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 0, 0, 0]];
+        break;
+      case 'i':
+        this.shapeData = [[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]];
+        break;
 
       default:
         break;
     }
     this.setColor(color);
-    // this.s = [[1, 1, 0], [0, 1, 1], [0, 0, 0]];
-    // this.l = [[0, 1, 0], [0, 1, 0], [0, 1, 1]];
-    // this.o = [[0, 0, 0, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 0, 0, 0]];
-    // this.t = [[1, 1, 1], [0, 1, 0], [0, 0, 0]];
-    // this.i = [[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]];
-    // this.p = [[0, 1, 0], [1, 1, 1], [0, 1, 0]];
-    // this.pieceList = [this.s, this.l, this.o, this.t, this.i, this.p]
   }
   rotateRight() {}
   rotateLeft() {}
@@ -30,10 +37,10 @@ export class Piece {
 }
 
 Piece.getRandomPiece = function() {
-  debugger;
   var randomShapeLetter = possibleShapes[Math.floor(Math.random() * possibleShapes.length)];
   var randomShapeColor = possibleColors[Math.floor(Math.random() * possibleColors.length)];
+  // console.log('random color is', randomShapeColor);
   var s = new Piece(randomShapeLetter, randomShapeColor);
-  console.log('s', s);
+  console.log('random shape is', s);
   return s;
 };
