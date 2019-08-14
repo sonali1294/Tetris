@@ -1,5 +1,9 @@
 import { Piece } from './Piece';
 
+function makeCounting(a, b) {}
+//input a,b => 9, 4
+//return [9,8,7,6,5,4]
+
 export class Game {
   constructor() {
     this.currentPiece = {
@@ -32,7 +36,6 @@ export class Game {
     ];
   }
 
-  removeCurrentPiece() {}
   pasteCurrentPiece() {
     var locx = this.currentPiece.x;
     var locy = this.currentPiece.y;
@@ -43,19 +46,37 @@ export class Game {
     });
   }
 
+  removeCurrentPiece() {}
+
   isRowFull(rowNum) {
     return this.data[rowNum].includes(0) !== true;
   }
-  // detectFullRowFromBottom(rowNum) {
-  //   //send first row from bottom which is full
-  //   // return rownum;
-  //   for (var i = this.data.length - 1; i >= 0; i--) {
-  //     for (var j = this.data[i].length - 1; j >= 0; j--) {
-  //       return this.data[rowNum].includes(0) !== true;
-  //     }
-  //   }
-  // }
-  // moveAllBoardRowsDown(rowNum) {}
+
+  detectFullRowFromBottom() {
+    for (var i = this.data.length - 1; i >= 0; i--) {
+      var boolean = this.isRowFull(i);
+      if (boolean == true) {
+        return i;
+      }
+    }
+    this.sendUpdate();
+  }
+
+  moveAllBoardRowsDown(rowNum) {
+    for (let y = rowNum; y >= 0; y--) {
+      var row = this.data[y];
+      if (y === 0) {
+        row.map((col, x) => {
+          this.data[y][x] = 0;
+        });
+      } else {
+        row.map((col, x) => {
+          this.data[y][x] = this.data[y - 1][x];
+        });
+      }
+    }
+    this.sendUpdate();
+  }
   // checkIfNextRowIsAvailable() {}
 
   onUpdate(callback) {
