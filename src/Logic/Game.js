@@ -7,14 +7,14 @@ export class Game {
   constructor() {
     this.currentPiece = {
       piece: new Piece.getRandomPiece(),
-      x: 0,
-      y: 0
+      x: 4,
+      y: 10
     };
     this.data = [
-      ['G', 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 'R', 0, 0, 0, 0, 0, 0, 0],
+      ['P', 0, 0, 0, 0, 0, 0, 'P', 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 'P', 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -77,6 +77,24 @@ export class Game {
     this.sendUpdate();
   }
 
+  tryMoveRight() {
+    //1 test can it move right
+    //if yes - then
+    if (this.canCurrentPieceMoveRight() === true) {
+      this.removeCurrentPiece();
+      this.currentPiece.x = this.currentPiece.x + 1;
+      this.pasteCurrentPiece();
+    }
+  }
+  tryMoveLeft() {
+    //1 test can it move right
+    //if yes - then
+    if (this.canCurrentPieceMoveLeft() === true) {
+      this.removeCurrentPiece();
+      this.currentPiece.x = this.currentPiece.x - 1;
+      this.pasteCurrentPiece();
+    }
+  }
   canCurrentPieceMoveRight() {
     //remove piece
     this.removeCurrentPiece();
