@@ -19,7 +19,7 @@ class Board extends Component {
         piece: game.currentPiece.piece.shapeData
       });
     });
-    game.pasteCurrentPieceOnBoard();
+    //game.pasteCurrentPieceOnBoard();
     window.game = game;
   }
 

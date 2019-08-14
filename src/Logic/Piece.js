@@ -1,5 +1,8 @@
-var possibleColors = ['red', 'green', 'blue', 'purple', 'orange'];
-var possibleShapes = ['z', 's', 'j', 't', 'l', 'o', 'i'];
+var possibleColors = ['red', 'green', 'blue', 'purple', 'orange', 'yellow'];
+var possibleShapes = ['z', 's', 'l', 'o', 't', 'p', 'i', 'j'];
+var colorSymbolToClassMap = {
+  R: 'redClass'
+};
 
 export class Piece {
   constructor(type, color) {
@@ -32,22 +35,25 @@ export class Piece {
     this.setColor(color);
   }
   rotatePiece() {
-    var currentPiece = {
-      piece: { shapeData: [[0, 1, 1], [1, 1, 0], [0, 0, 0]] },
-      x: 5,
-      y: 2
-    };
-    let n = currentPiece.piece.shapeData.length - 1;
-    let result = currentPiece.piece.shapeData.map((row, i) =>
-      row.map((val, j) => currentPiece.piece.shapeData[n - j][i])
-    );
-    currentPiece.piece.shapeData.length = 0;
-    currentPiece.piece.shapeData.push(...result);
+    // let n = currentPiece.piece.shapeData.length - 1;
+    // let result = currentPiece.piece.shapeData.map((row, i) =>
+    //   row.map((val, j) => currentPiece.piece.shapeData[n - j][i])
+    // );
+    // currentPiece.piece.shapeData.length = 0;
+    // currentPiece.piece.shapeData.push(...result);
     // console.log(currentPiece.piece.shapeData);
   }
   shiftRight() {}
   shiftLeft() {}
-  setColor(color) {}
+  setColor(color) {
+    this.shapeData.map((row, y) => {
+      row.map((val, x) => {
+        if (val !== 0) {
+          this.shapeData[y][x] = color[0].toUpperCase();
+        }
+      });
+    });
+  }
 }
 
 Piece.getRandomPiece = function() {
@@ -58,3 +64,4 @@ Piece.getRandomPiece = function() {
   // console.log('random shape is', s);
   return s;
 };
+console.log('test', Piece.getRandomPiece());

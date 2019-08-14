@@ -30,12 +30,8 @@ export class Game {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R']
     ];
-    window.piece = new Piece();
   }
 
-  pasteCurrentPieceOnBoard() {
-    this.currentPiece.piece.shapeData.map((row, i) => {});
-  }
   pasteCurrentPiece() {
     let x = this.currentPiece.y;
     this.currentPiece.piece.shapeData.map((row, i) => {
