@@ -25,7 +25,7 @@
     "regenerate-package-lock": "npm cache clean --force && rm -rf node_modules && rm package-lock.json && npm install",
     "_generateBundleAnalyzerFile": "webpack-bundle-analyzer build/bundle-stats.json -m static -r build/bundle-stats.html -O",
     "_serve": "cd build && ws --spa index.html --port 58975 -z",
-    "_prettier": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}' --config prettier.config.js",
+    "_prettier": "prettier --write src/**/*.{js,jsx,ts,tsx,json,css,scss,md} --config prettier.config.js",
     "start": "react-scripts start",
     "lint:client:css": "stylelint 'src/scss/**/*.scss'",
     "build": "react-scripts build",
