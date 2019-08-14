@@ -46,12 +46,17 @@ export class Game {
   isRowFull(rowNum) {
     return this.data[rowNum].includes(0) !== true;
   }
-  detectFullRowFromBottom() {
-    //send first row from bottom which is full
-    // return rownum;
-  }
-  moveAllBoardRowsDown(rowNum) {}
-  checkIfNextRowIsAvailable() {}
+  // detectFullRowFromBottom(rowNum) {
+  //   //send first row from bottom which is full
+  //   // return rownum;
+  //   for (var i = this.data.length - 1; i >= 0; i--) {
+  //     for (var j = this.data[i].length - 1; j >= 0; j--) {
+  //       return this.data[rowNum].includes(0) !== true;
+  //     }
+  //   }
+  // }
+  // moveAllBoardRowsDown(rowNum) {}
+  // checkIfNextRowIsAvailable() {}
 
   onUpdate(callback) {
     this.callback = callback;
