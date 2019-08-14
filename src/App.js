@@ -14,7 +14,7 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-        <Board matrix={this.matrix} piece={this.piece} />
+        <Board />
       </div>
     );
   }

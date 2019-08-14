@@ -31,8 +31,22 @@ export class Piece {
     }
     this.setColor(color);
   }
-  rotateRight() {}
-  rotateLeft() {}
+  rotatePiece() {
+    var currentPiece = {
+      piece: { shapeData: [[0, 1, 1], [1, 1, 0], [0, 0, 0]] },
+      x: 5,
+      y: 2
+    };
+    let n = currentPiece.piece.shapeData.length - 1;
+    let result = currentPiece.piece.shapeData.map((row, i) =>
+      row.map((val, j) => currentPiece.piece.shapeData[n - j][i])
+    );
+    currentPiece.piece.shapeData.length = 0;
+    currentPiece.piece.shapeData.push(...result);
+    console.log(currentPiece.piece.shapeData);
+  }
+  shiftRight() {}
+  shiftLeft() {}
   setColor(color) {}
 }
 

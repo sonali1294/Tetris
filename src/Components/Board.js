@@ -19,9 +19,8 @@ class Board extends Component {
         piece: game.currentPiece.piece.shapeData
       });
     });
+    game.pasteCurrentPieceOnBoard();
     window.game = game;
-    // console.log('game', game);
-    // console.log('piece', game.currentPiece.piece.shapeData);
   }
 
   setColours = (num) => {
@@ -45,7 +44,7 @@ class Board extends Component {
           </tbody>
         </table>
         <br></br>
-        <p>Shapes </p>
+        <p>Shapes</p>
         <table>
           <tbody>
             {this.state.piece.map((numList, i) => (

@@ -9,6 +9,7 @@ export class Game {
     };
 
     this.data = [
+      [0, 'R', 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -18,8 +19,6 @@ export class Game {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 'G', 'G', 0, 0],
-      [0, 0, 0, 0, 0, 0, 'G', 'G', 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -28,23 +27,31 @@ export class Game {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 0, 'R']
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R']
     ];
+    window.piece = new Piece();
+  }
+
+  pasteCurrentPieceOnBoard() {
+    this.currentPiece.piece.shapeData.map((row, i) => {});
   }
   pasteCurrentPiece() {
     for (var r = 0; r < this.currentPiece.piece.shapeData.length; r++) {
-      var cube = this.currentPiece.piece.shapeData[r];
-      for (var c = 0; c < cube.length; c++) {
-        // console.log('cube[' + r + '][' + c + '] = ' + cube[c]);
-        if (cube[c] === 1) {
-          console.log('cube[' + r + '][' + c + ']  ');
+      var a = this.currentPiece.piece.shapeData[r];
+      for (var c = 0; c < a.length; c++) {
+        // console.log('a[' + r + '][' + c + '] = ' + a[c]);
+        if (a[c] === 1) {
+          console.log('a[' + r + '][' + c + ']  ');
           var x = this.currentPiece.x + c;
           var y = this.currentPiece.y + r;
-          console.log('xy coordinates', x, y);
+          console.log('x', x, 'y', y);
         }
       }
     }
   }
+
+  createEmptyBoard() {}
 
   isAnyRowFull() {
     for (var i = 1; i < this.data.length; i++) {
