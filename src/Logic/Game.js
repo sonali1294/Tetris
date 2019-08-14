@@ -11,6 +11,7 @@ export class Game {
       x: 2,
       y: 2
     };
+    this.score = 0;
 
     this.data = [
       ['B', 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -21,7 +22,7 @@ export class Game {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -29,10 +30,10 @@ export class Game {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 'G', 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 'G', 0, 0, 0, 0, 0, 0, 0],
-      ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R'],
       [0, 0, 'B', 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 'B', 0, 0, 0, 0, 0, 0, 0],
-      [0, 'B', 'B', 0, 0, 0, 0, 0, 0, 0]
+      [0, 'B', 'B', 0, 0, 0, 0, 0, 0, 0],
+      ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'B', 'R']
     ];
   }
 
@@ -53,13 +54,11 @@ export class Game {
   }
 
   detectFullRowFromBottom() {
-    for (var i = this.data.length - 1; i >= 0; i--) {
-      var boolean = this.isRowFull(i);
-      if (boolean == true) {
-        return i;
+    for (var y = this.data.length - 1; y >= 0; y--) {
+      if (this.isRowFull(y)) {
+        return y;
       }
     }
-    this.sendUpdate();
   }
 
   moveAllBoardRowsDown(rowNum) {
