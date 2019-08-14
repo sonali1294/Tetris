@@ -28,20 +28,20 @@ export class Piece {
       case 'i':
         this.shapeData = [[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]];
         break;
-
+      case 'p':
+        this.shapeData = [[0, 1, 0], [1, 1, 1], [0, 1, 0]];
+        break;
       default:
         break;
     }
     this.setColor(color);
   }
   rotatePiece() {
-    // let n = currentPiece.piece.shapeData.length - 1;
-    // let result = currentPiece.piece.shapeData.map((row, i) =>
-    //   row.map((val, j) => currentPiece.piece.shapeData[n - j][i])
-    // );
-    // currentPiece.piece.shapeData.length = 0;
-    // currentPiece.piece.shapeData.push(...result);
-    // console.log(currentPiece.piece.shapeData);
+    let n = this.shapeData.length - 1;
+    let result = this.shapeData.map((row, i) => row.map((val, j) => this.shapeData[n - j][i]));
+    this.shapeData.length = 0;
+    this.shapeData.push(...result);
+    console.log(this.shapeData);
   }
   shiftRight() {}
   shiftLeft() {}
