@@ -1,17 +1,16 @@
-td{
-  border:0.5px solid;
+td {
+  border: 0.5px solid;
 }
-table{
+table {
   /* width:300px;
   height:500px; */
 }
-.redClass{
-  background-color: red
-  
+.redClass {
+  background-color: red;
 }
 
-.purpleClass{
-  background-color:purple
+.purpleClass {
+  background-color: purple;
 }
 
 .block {
@@ -20,10 +19,10 @@ table{
   border: 0.1px solid #222222;
 }
 
-.blackClass{
-  background-color:black
+.blackClass {
+  background-color: black;
 }
 
-.greenClass{
-  background-color: green
+.greenClass {
+  background-color: green;
 }

@@ -30,7 +30,6 @@ module.exports = {
    *   - "flow"
    *   - "babylon"
    */
-  parser: "typescript",
   /**
    * Do not print semicolons, except at the beginning of lines which may need them.
    * Valid options:
