@@ -20,7 +20,7 @@ export class Piece {
         this.shapeData = [[0, 1, 0], [0, 1, 0], [0, 1, 1]];
         break;
       case 'o':
-        this.shapeData = [[0, 0, 0, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 0, 0, 0]];
+        this.shapeData = [[1, 1], [1, 1]];
         break;
       case 'i':
         this.shapeData = [[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]];

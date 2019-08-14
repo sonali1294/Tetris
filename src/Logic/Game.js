@@ -4,11 +4,11 @@ export class Game {
   constructor() {
     this.currentPiece = {
       piece: new Piece.getRandomPiece(),
-      x: 3,
+      x: 2,
       y: 2
     };
-
     this.data = [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -32,29 +32,32 @@ export class Game {
     ];
   }
 
+  removeCurrentPiece() {}
+  isCurrentPiecePastable() {}
   pasteCurrentPiece() {
-    let x = this.currentPiece.y;
-    this.currentPiece.piece.shapeData.map((row, i) => {
-      let y = this.currentPiece.x;
-      row.map((col, j) => {
-        this.data[x][y] = this.currentPiece.piece.shapeData[i][j];
-        y++;
+    var locx = this.currentPiece.x;
+    var locy = this.currentPiece.y;
+    this.currentPiece.piece.shapeData.map((row, x) => {
+      row.map((col, y) => {
+        this.data[y + locy][x + locx] = this.currentPiece.piece.shapeData[y][x];
       });
-      x++;
     });
   }
 
-  createEmptyBoard() {}
-
-  isAnyRowFull() {
-    for (var i = 1; i < this.data.length; i++) {
-      if (!this.data[i].includes(0)) {
-        this.data[i].splice(0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-      }
-    }
+  isRowFull(rowNum) {
+    return this.data[rowNum].includes(0) !== true;
   }
-
-  checkIfNextRowIsAvailable() {}
+  // detectFullRowFromBottom(rowNum) {
+  //   //send first row from bottom which is full
+  //   // return rownum;
+  //   for (var i = this.data.length - 1; i >= 0; i--) {
+  //     for (var j = this.data[i].length - 1; j >= 0; j--) {
+  //       return this.data[rowNum].includes(0) !== true;
+  //     }
+  //   }
+  // }
+  // moveAllBoardRowsDown(rowNum) {}
+  // checkIfNextRowIsAvailable() {}
 
   onUpdate(callback) {
     this.callback = callback;
