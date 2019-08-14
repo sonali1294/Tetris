@@ -33,8 +33,7 @@ class Board extends Component {
           {this.state.data.map((numList, i) => (
             <tr key={i}>
               {numList.map((num, j) => (
-                //  <td className={`block ${this.setColours(num)}`} key={j}>{num}</td>
-                <td key={j}>{num}</td>
+                <td className={`block ${this.setColours(num)}`} key={j}></td>
               ))}
             </tr>
           ))}
