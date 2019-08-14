@@ -10,8 +10,8 @@ class Board extends Component {
       data: game.data,
       piece: game.currentPiece.piece.shapeData
     };
-    game.isAnyRowFull();
     game.pasteCurrentPiece();
+    game.removeCurrentPiece();
 
     game.onUpdate(() => {
       this.setState({
@@ -19,14 +19,22 @@ class Board extends Component {
         piece: game.currentPiece.piece.shapeData
       });
     });
-    game.pasteCurrentPieceOnBoard();
+    //game.pasteCurrentPieceOnBoard();
     window.game = game;
   }
 
   setColours = (num) => {
-    return num !== 0
-      ? (num === 'R' ? 'redClass' : null) || (num === 'P' ? 'purpleClass' : null) || (num === 'G' ? 'greenClass' : null)
-      : 'blackClass';
+    console.log(num);
+    var colorSymbolToClassMap = {
+      R: 'redClass',
+      P: 'purpleClass',
+      B: 'blueClass',
+      O: 'orangeClass',
+      Y: 'yellowClass',
+      G: 'greenClass',
+      0: 'blackClass'
+    };
+    return colorSymbolToClassMap[num];
   };
 
   render() {

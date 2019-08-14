@@ -4,12 +4,10 @@ export class Game {
   constructor() {
     this.currentPiece = {
       piece: new Piece.getRandomPiece(),
-      x: 3,
+      x: 2,
       y: 2
     };
-
     this.data = [
-      [0, 'R', 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -28,40 +26,38 @@ export class Game {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R']
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 0]
     ];
-    window.piece = new Piece();
   }
 
-  pasteCurrentPieceOnBoard() {
-    this.currentPiece.piece.shapeData.map((row, i) => {});
-  }
+  removeCurrentPiece() {}
+  isCurrentPiecePastable() {}
   pasteCurrentPiece() {
-    for (var r = 0; r < this.currentPiece.piece.shapeData.length; r++) {
-      var a = this.currentPiece.piece.shapeData[r];
-      for (var c = 0; c < a.length; c++) {
-        // console.log('a[' + r + '][' + c + '] = ' + a[c]);
-        if (a[c] === 1) {
-          console.log('a[' + r + '][' + c + ']  ');
-          var x = this.currentPiece.x + c;
-          var y = this.currentPiece.y + r;
-          console.log('x', x, 'y', y);
-        }
-      }
-    }
+    var locx = this.currentPiece.x;
+    var locy = this.currentPiece.y;
+    this.currentPiece.piece.shapeData.map((row, x) => {
+      row.map((col, y) => {
+        this.data[y + locy][x + locx] = this.currentPiece.piece.shapeData[y][x];
+      });
+    });
   }
 
-  createEmptyBoard() {}
-
-  isAnyRowFull() {
-    for (var i = 1; i < this.data.length; i++) {
-      if (!this.data[i].includes(0)) {
-        this.data[i].splice(0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-      }
-    }
+  isRowFull(rowNum) {
+    return this.data[rowNum].includes(0) !== true;
   }
-
-  checkIfNextRowIsAvailable() {}
+  // detectFullRowFromBottom(rowNum) {
+  //   //send first row from bottom which is full
+  //   // return rownum;
+  //   for (var i = this.data.length - 1; i >= 0; i--) {
+  //     for (var j = this.data[i].length - 1; j >= 0; j--) {
+  //       return this.data[rowNum].includes(0) !== true;
+  //     }
+  //   }
+  // }
+  // moveAllBoardRowsDown(rowNum) {}
+  // checkIfNextRowIsAvailable() {}
 
   onUpdate(callback) {
     this.callback = callback;
