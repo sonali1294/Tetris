@@ -22,13 +22,18 @@
   },
   "scripts": {
     "fix": "run-s _prettier",
+    "deploy": "run-s _clean _install build _upload",
+    "_clean": "rimraf build node_modules",
+    "_install": "npm install",
+    "build": "react-scripts build",
+    "_upload": "surge build --domain react-tetris-game.surge.sh",
+    "_serve-local-build": "serve -s build",
     "regenerate-package-lock": "npm cache clean --force && rm -rf node_modules && rm package-lock.json && npm install",
     "_generateBundleAnalyzerFile": "webpack-bundle-analyzer build/bundle-stats.json -m static -r build/bundle-stats.html -O",
     "_serve": "cd build && ws --spa index.html --port 58975 -z",
     "_prettier": "prettier --write src/**/*.{js,jsx,ts,tsx,json,css,scss,md} --config prettier.config.js",
     "start": "react-scripts start",
     "lint:client:css": "stylelint 'src/scss/**/*.scss'",
-    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -55,8 +60,10 @@
     "prettier": "1.18.2",
     "react-app-rewired": "2.1.3",
     "rimraf": "2.6.3",
+    "serve": "11.1.0",
     "stylelint": "10.1.0",
     "stylelint-webpack-plugin": "0.10.5",
+    "surge": "0.21.3",
     "webpack-bundle-analyzer": "3.4.1"
   }
 }

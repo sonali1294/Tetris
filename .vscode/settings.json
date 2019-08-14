@@ -1,10 +1,12 @@
 {
-    "files.autoSave": "onFocusChange",
-    "editor.formatOnSave": true,
-    "eslint.alwaysShowStatus": true,
-    "eslint.enable": true,
-    "eslint.options": {
-      "configFile": "eslintrc.js"
-    },
-    "javascript.updateImportsOnFileMove.enabled": "always"
-  }
+  "files.autoSave": "onFocusChange",
+  "editor.formatOnSave": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.enable": true,
+  "eslint.options": {
+    "configFile": "eslintrc.js"
+  },
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "merge-conflict.autoNavigateNextConflict.enabled": true,
+  "merge-conflict.diffViewPosition": "Beside"
+}
