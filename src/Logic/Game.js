@@ -30,7 +30,6 @@ export class Game {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R']
     ];
-    window.piece = new Piece();
   }
 
   pasteCurrentPiece() {
