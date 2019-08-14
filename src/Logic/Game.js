@@ -37,8 +37,16 @@ export class Game {
   }
 
   createEmptyBoard() {}
-  isLastRowFull() {
-    return 'Yes Last row is full';
+
+  isAnyRowFull() {
+    console.log(this.data.length);
+    for (var i = 0; i < this.data.length - 1; i++) {
+      if (this.data[i].includes(0)) {
+        console.log('0');
+      } else {
+        console.log('no 0');
+      }
+    }
   }
   pasteCurrentPiece() {}
   onUpdate(callback) {

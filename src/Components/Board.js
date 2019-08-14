@@ -10,6 +10,7 @@ class Board extends Component {
     this.state = {
       data: game.data
     };
+    game.isAnyRowFull();
     game.onUpdate(() => {
       this.setState({
         data: game.data
