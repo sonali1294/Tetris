@@ -1,16 +1,19 @@
 import { Piece } from './Piece';
-
+var gameBoardDimentions = {
+  width: 10,
+  height: 20
+};
 export class Game {
   constructor() {
     this.currentPiece = {
       piece: new Piece.getRandomPiece(),
-      x: 2,
-      y: 2
+      x: 0,
+      y: 0
     };
     this.data = [
+      ['G', 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 'R', 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -32,16 +35,46 @@ export class Game {
     ];
   }
 
-  removeCurrentPiece() {}
-  isCurrentPiecePastable() {}
+  removeCurrentPiece() {
+    var locx = this.currentPiece.x;
+    var locy = this.currentPiece.y;
+    this.currentPiece.piece.shapeData.map((row, x) => {
+      row.map((col, y) => {
+        if (this.currentPiece.piece.shapeData[y][x] !== 0) {
+          this.data[y + locy][x + locx] = 0;
+        }
+      });
+    });
+    this.sendUpdate();
+  }
+  isCurrentPiecePastable() {
+    var locx = this.currentPiece.x;
+    var locy = this.currentPiece.y;
+    var isPiecePastable = true;
+    this.currentPiece.piece.shapeData.map((row, x) => {
+      row.map((col, y) => {
+        try {
+          if (this.currentPiece.piece.shapeData[y][x] !== 0 && this.data[y + locy][x + locx] !== 0) {
+            isPiecePastable = isPiecePastable && false;
+          }
+        } catch (error) {
+          isPiecePastable = isPiecePastable && false;
+        }
+      });
+    });
+    return isPiecePastable;
+  }
   pasteCurrentPiece() {
     var locx = this.currentPiece.x;
     var locy = this.currentPiece.y;
     this.currentPiece.piece.shapeData.map((row, x) => {
       row.map((col, y) => {
-        this.data[y + locy][x + locx] = this.currentPiece.piece.shapeData[y][x];
+        if (this.currentPiece.piece.shapeData[y][x] !== 0) {
+          this.data[y + locy][x + locx] = this.currentPiece.piece.shapeData[y][x];
+        }
       });
     });
+    this.sendUpdate();
   }
 
   isRowFull(rowNum) {

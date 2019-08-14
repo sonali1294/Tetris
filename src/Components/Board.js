@@ -10,21 +10,24 @@ class Board extends Component {
       data: game.data,
       piece: game.currentPiece.piece.shapeData
     };
-    game.pasteCurrentPiece();
-    game.removeCurrentPiece();
-
     game.onUpdate(() => {
       this.setState({
         data: game.data,
         piece: game.currentPiece.piece.shapeData
       });
     });
-    //game.pasteCurrentPieceOnBoard();
     window.game = game;
+
+    console.log('isPastable', game.isCurrentPiecePastable());
+    if (game.isCurrentPiecePastable() === true) {
+      game.pasteCurrentPiece();
+      setTimeout(() => {
+        game.removeCurrentPiece();
+      }, 1000);
+    }
   }
 
   setColours = (num) => {
-    console.log(num);
     var colorSymbolToClassMap = {
       R: 'redClass',
       P: 'purpleClass',

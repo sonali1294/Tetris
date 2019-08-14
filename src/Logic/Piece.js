@@ -38,7 +38,6 @@ export class Piece {
     let result = this.shapeData.map((row, i) => row.map((val, j) => this.shapeData[n - j][i]));
     this.shapeData.length = 0;
     this.shapeData.push(...result);
-    console.log(this.shapeData);
   }
   shiftRight() {}
   shiftLeft() {}
@@ -59,4 +58,3 @@ Piece.getRandomPiece = function() {
   var s = new Piece(randomShapeLetter, randomShapeColor);
   return s;
 };
-console.log('test', Piece.getRandomPiece());
