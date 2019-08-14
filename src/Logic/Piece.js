@@ -43,7 +43,7 @@ export class Piece {
     );
     currentPiece.piece.shapeData.length = 0;
     currentPiece.piece.shapeData.push(...result);
-    console.log(currentPiece.piece.shapeData);
+    // console.log(currentPiece.piece.shapeData);
   }
   shiftRight() {}
   shiftLeft() {}
@@ -55,6 +55,6 @@ Piece.getRandomPiece = function() {
   var randomShapeColor = possibleColors[Math.floor(Math.random() * possibleColors.length)];
   // console.log('random color is', randomShapeColor);
   var s = new Piece(randomShapeLetter, randomShapeColor);
-  console.log('random shape is', s);
+  // console.log('random shape is', s);
   return s;
 };

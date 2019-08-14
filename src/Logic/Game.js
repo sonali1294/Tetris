@@ -9,14 +9,14 @@ export class Game {
     };
 
     this.data = [
-      [0, 'R', 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 's', 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 'G', 'G', 0, 0, 0],
+      [0, 0, 0, 0, 0, 'G', 'G', 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -37,18 +37,29 @@ export class Game {
     this.currentPiece.piece.shapeData.map((row, i) => {});
   }
   pasteCurrentPiece() {
-    for (var r = 0; r < this.currentPiece.piece.shapeData.length; r++) {
-      var a = this.currentPiece.piece.shapeData[r];
-      for (var c = 0; c < a.length; c++) {
-        // console.log('a[' + r + '][' + c + '] = ' + a[c]);
-        if (a[c] === 1) {
-          console.log('a[' + r + '][' + c + ']  ');
-          var x = this.currentPiece.x + c;
-          var y = this.currentPiece.y + r;
-          console.log('x', x, 'y', y);
-        }
-      }
-    }
+    // for (var r = 0; r < this.currentPiece.piece.shapeData.length; r++) {
+    //   var a = this.currentPiece.piece.shapeData[r];
+    //   for (var c = 0; c < a.length; c++) {
+    //     if (a[c] === 1) {
+    //       console.log('a[' + r + '][' + c + ']  ');
+    //       var x = this.currentPiece.x + c;
+    //       var y = this.currentPiece.y + r;
+    //       console.log('x', x, 'y', y);
+    //     }
+    //   }
+    // }
+    let x = this.currentPiece.y;
+
+    this.currentPiece.piece.shapeData.map((row, i) => {
+      let y = this.currentPiece.x;
+      row.map((col, j) => {
+        this.data[x][y] = this.currentPiece.piece.shapeData[i][j];
+        y++;
+      });
+      x++;
+    });
+    console.log(this.currentPiece.x);
+    console.log(this.data[this.currentPiece.y][this.currentPiece.x]);
   }
 
   createEmptyBoard() {}
