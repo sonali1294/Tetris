@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import { Game } from '../Logic/Game';
-import { Piece } from '../Logic/Piece';
+// import { Piece } from '../Logic/Piece';
 
 class Board extends Component {
   constructor() {
     super();
-    // this.draw= this.draw.bind(this);
     var game = new Game();
     this.state = {
-      data: game.data
+      data: game.data,
+      piece: game.currentPiece.piece.shapeData
     };
     game.isAnyRowFull();
+    game.pasteCurrentPiece();
+
     game.onUpdate(() => {
       this.setState({
-        data: game.data
+        data: game.data,
+        piece: game.currentPiece.piece.shapeData
       });
     });
     game.pasteCurrentPieceOnBoard();
@@ -28,18 +31,32 @@ class Board extends Component {
 
   render() {
     return (
-      <table>
-        <tbody>
-          {this.state.data.map((numList, i) => (
-            <tr key={i}>
-              {numList.map((num, j) => (
-                //  <td className={`block ${this.setColours(num)}`} key={j}>{num}</td>
-                <td key={j}>{num}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div>
+        <table>
+          <tbody>
+            {this.state.data.map((numList, i) => (
+              <tr key={i}>
+                {numList.map((num, j) => (
+                  <td className={`block ${this.setColours(num)}`} key={j}></td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <br></br>
+        <p>Shapes</p>
+        <table>
+          <tbody>
+            {this.state.piece.map((numList, i) => (
+              <tr key={i}>
+                {numList.map((num, j) => (
+                  <td className={`block ${this.setColours(num)}`} key={j}></td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }
