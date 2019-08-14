@@ -15,8 +15,8 @@ class Board extends Component {
         data: game.data
       });
     });
+    game.pasteCurrentPieceOnBoard();
     window.game = game;
-    // this.generatePieceOnBoard(currentPiece)
   }
 
   setColours = (num) => {
@@ -25,41 +25,6 @@ class Board extends Component {
       : 'blackClass';
   };
 
-  // generatePieceOnBoard(currentPiece) {
-  //   for (var i = 0; i < this.data.length; i++) {
-  //     for (var j = )
-  //   }
-
-  // }
-
-  // draw(){
-  //     this.props.matrix.forEach( (row, y) => {
-  //         row.forEach( (col, x) => {
-  //             this.ctx.fillStyle = (col === 1) ? 'Red' : 'Black';
-  //             this.ctx.fillRect(x,y,1,1);
-  //         })
-  //     })
-
-  //     this.props.piece.forEach( (row,y) => {
-  //         row.forEach( (col, x) => {
-  //             this.ctx.fillStyle = (col === 1) ? 'Red' : 'Black';
-  //             this.ctx.fillRect(x,y,1,1);
-  //         })
-  //     })
-
-  // }
-
-  // componentDidMount(){
-  //     this.canvas = this.refs.canvas;
-  //     if(this.canvas){
-  //         this.ctx = this.canvas.getContext('2d');
-  //         this.ctx.fillStyle = 'black';
-  //         this.ctx.scale(20,20);
-  //         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-  //     }
-  //     this.draw();
-  // }
-
   render() {
     return (
       <table>
@@ -67,7 +32,8 @@ class Board extends Component {
           {this.state.data.map((numList, i) => (
             <tr key={i}>
               {numList.map((num, j) => (
-                <td className={`block ${this.setColours(num)}`} key={j}></td>
+                //  <td className={`block ${this.setColours(num)}`} key={j}>{num}</td>
+                <td key={j}>{num}</td>
               ))}
             </tr>
           ))}
