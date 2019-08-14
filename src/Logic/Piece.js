@@ -38,10 +38,10 @@ export class Piece {
     let result = this.shapeData.map((row, i) => row.map((val, j) => this.shapeData[n - j][i]));
     this.shapeData.length = 0;
     this.shapeData.push(...result);
-    console.log(this.shapeData);
   }
   shiftRight() {}
   shiftLeft() {}
+
   setColor(color) {
     this.shapeData.map((row, y) => {
       row.map((val, x) => {
@@ -56,9 +56,6 @@ export class Piece {
 Piece.getRandomPiece = function() {
   var randomShapeLetter = possibleShapes[Math.floor(Math.random() * possibleShapes.length)];
   var randomShapeColor = possibleColors[Math.floor(Math.random() * possibleColors.length)];
-  // console.log('random color is', randomShapeColor);
   var s = new Piece(randomShapeLetter, randomShapeColor);
-  // console.log('random shape is', s);
   return s;
 };
-console.log('test', Piece.getRandomPiece());
