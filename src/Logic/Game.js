@@ -42,19 +42,16 @@ export class Game {
   }
 
   startMainLoop() {
+    this.pasteCurrentPiece();
     this.intId = setInterval(() => {
-      debugger;
       this.mainLoop();
     }, 1000);
   }
 
   mainLoop() {
-    //This will execute every tick
-    if (this.isCurrentPiecePasteable() === true) {
-      this.pasteCurrentPiece();
-      this.tryMoveDown();
-      this.clearFullRowFromBottom();
-    }
+    this.pasteCurrentPiece();
+    this.tryMoveDown();
+    this.clearFullRowFromBottom();
   }
 
   removeCurrentPiece() {
@@ -78,12 +75,14 @@ export class Game {
         try {
           if (this.currentPiece.piece.shapeData[y][x] !== 0 && this.data[y + locy][x + locx] !== 0) {
             isPiecePastable = isPiecePastable && false;
+            console.log('If');
           }
         } catch (error) {
           isPiecePastable = isPiecePastable && false;
         }
       });
     });
+    console.log('isPiecePastable', isPiecePastable);
     return isPiecePastable;
   }
   pasteCurrentPiece() {
@@ -191,21 +190,30 @@ export class Game {
     this.pasteCurrentPiece();
     return isPastable;
   }
+
   tryMoveDown() {
-    if (this.canCurrentPieceMoveDown()) {
+    if (this.canCurrentPieceMoveDown() === true) {
       this.removeCurrentPiece();
       this.currentPiece.y = this.currentPiece.y + 1;
       this.pasteCurrentPiece();
-      this.sendUpdate();
-    } else {
-      if (!this.detectIfGameOver()) {
-        this.currentPiece.piece = new Piece.getRandomPiece();
-        this.currentPiece.x = 3;
-        this.currentPiece.y = 0;
-        this.sendUpdate();
-      }
     }
+    this.sendUpdate();
   }
+  // tryMoveDown() {
+  //   if (this.canCurrentPieceMoveDown()) {
+  //     this.removeCurrentPiece();
+  //     this.currentPiece.y = this.currentPiece.y + 1;
+  //     this.pasteCurrentPiece();
+  //     this.sendUpdate();
+  //   } else {
+  //     if (!this.detectIfGameOver()) {
+  //       this.currentPiece.piece = new Piece.getRandomPiece();
+  //       this.currentPiece.x = 3;
+  //       this.currentPiece.y = 0;
+  //       this.sendUpdate();
+  //     }
+  //   }
+  // }
   removeCurrentPiece() {
     var locX = this.currentPiece.x;
     var locY = this.currentPiece.y;
@@ -262,7 +270,7 @@ export class Game {
       }
     }
     this.score++;
-    this.sendUpdate();
+    // this.sendUpdate();
   }
   detectIfGameOver() {
     this.data.map((row, i) => {
