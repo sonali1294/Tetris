@@ -4,7 +4,9 @@ import { Game } from '../Logic/Game';
 import { HotKeys } from 'react-hotkeys';
 const keyMap = {
   RIGHT_KEY: 'right',
-  LEFT_KEY: 'left'
+  LEFT_KEY: 'left',
+  UP_KEY: 'up',
+  DOWN_KEY: 'down'
 };
 class Board extends Component {
   constructor() {
@@ -13,29 +15,41 @@ class Board extends Component {
     this.game = game;
     this.state = {
       data: game.data,
-      piece: game.currentPiece.piece.shapeData
+      piece: game.currentPiece.piece.shapeData,
+      score: game.score,
+      gameStatus: game.gameStatus
     };
     game.onUpdate(() => {
       this.setState({
         data: game.data,
-        piece: game.currentPiece.piece.shapeData
+        piece: game.currentPiece.piece.shapeData,
+        score: game.score,
+        gameStatus: game.gameStatus
       });
     });
-    window.game = game;
 
-    console.log('isPastable', game.isCurrentPiecePastable());
-    if (game.isCurrentPiecePastable() === true) {
+    if (game.isCurrentPiecePasteable() === true) {
       game.pasteCurrentPiece();
-      // setTimeout(() => {
-      //   game.removeCurrentPiece();
-      // }, 1000);
+      setInterval(() => {
+        game.removeCurrentPiece();
+        game.tryMoveDown();
+        game.detectFullRowFromBottom();
+      }, 1000);
     }
+    window.game = game;
   }
+
   onRightKeyPressEvent = () => {
     this.game.tryMoveRight();
   };
   onLeftKeyPressEvent = () => {
     this.game.tryMoveLeft();
+  };
+  onDownKeyPressEvent = () => {
+    this.game.tryMoveDown();
+  };
+  onUpKeyPressEvent = () => {
+    this.game.rotateCurrentPiece();
   };
 
   setColours = (num) => {
@@ -58,7 +72,9 @@ class Board extends Component {
           keyMap={keyMap}
           handlers={{
             RIGHT_KEY: this.onRightKeyPressEvent,
-            LEFT_KEY: this.onLeftKeyPressEvent
+            LEFT_KEY: this.onLeftKeyPressEvent,
+            UP_KEY: this.onUpKeyPressEvent,
+            DOWN_KEY: this.onDownKeyPressEvent
           }}>
           <table>
             <tbody>
@@ -72,7 +88,14 @@ class Board extends Component {
             </tbody>
           </table>
           <br />
-          <p>Shapes</p>
+          <div>
+            <br />
+            <strong>SCORE : {this.state.score}</strong>
+            <br />
+            <strong>STATUS : {this.state.gameStatus}</strong>
+            <br />
+          </div>
+          <p>Current Shape</p>
           <table>
             <tbody>
               {this.state.piece.map((numList, i) => (

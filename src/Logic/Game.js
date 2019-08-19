@@ -12,22 +12,13 @@ export class Game {
   constructor() {
     this.currentPiece = {
       piece: new Piece.getRandomPiece(),
-      x: 4,
-      y: 10
+      x: 3,
+      y: 0
     };
+    this.score = 0;
+    this.gameStatus = 'Play';
     this.data = [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ['P', 0, 0, 0, 0, 0, 0, 'P', 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 'P', 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -36,7 +27,17 @@ export class Game {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 0]
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ];
   }
 
@@ -52,7 +53,7 @@ export class Game {
     });
     this.sendUpdate();
   }
-  isCurrentPiecePastable() {
+  isCurrentPiecePasteable() {
     var locx = this.currentPiece.x;
     var locy = this.currentPiece.y;
     var isPiecePastable = true;
@@ -90,6 +91,7 @@ export class Game {
       this.currentPiece.x = this.currentPiece.x + 1;
       this.pasteCurrentPiece();
     }
+    this.sendUpdate();
   }
   tryMoveLeft() {
     //1 test can it move right
@@ -99,13 +101,14 @@ export class Game {
       this.currentPiece.x = this.currentPiece.x - 1;
       this.pasteCurrentPiece();
     }
+    this.sendUpdate();
   }
   canCurrentPieceMoveRight() {
     //remove piece
     this.removeCurrentPiece();
     //update x by 1 position
     this.currentPiece.x = this.currentPiece.x + 1;
-    var isPastable = this.isCurrentPiecePastable();
+    var isPastable = this.isCurrentPiecePasteable();
     //UnDo
     this.currentPiece.x = this.currentPiece.x - 1;
     this.pasteCurrentPiece();
@@ -116,7 +119,7 @@ export class Game {
     this.removeCurrentPiece();
     //update x by 1 position
     this.currentPiece.x = this.currentPiece.x - 1;
-    var isPastable = this.isCurrentPiecePastable();
+    var isPastable = this.isCurrentPiecePasteable();
     //UnDo
     this.currentPiece.x = this.currentPiece.x + 1;
     this.pasteCurrentPiece();
@@ -124,14 +127,83 @@ export class Game {
   }
 
   canCurrentPieceRotate() {
-    //ToDo
+    this.removeCurrentPiece();
+    if (this.checkRotationForCurrentPiece()) {
+      this.pasteCurrentPiece();
+      return true;
+    } else {
+      this.pasteCurrentPiece();
+      return false;
+    }
+  }
+
+  checkRotationForCurrentPiece() {
+    let result = [];
+    let matrix = this.currentPiece.piece.shapeData;
+    for (let i = 0; i < this.currentPiece.piece.shapeData[0].length; i++) {
+      let row = this.currentPiece.piece.shapeData.map((e) => e[i]).reverse();
+      result.push(row);
+    }
+    this.currentPiece.piece.shapeData = result;
+    if (this.isCurrentPiecePasteable()) {
+      this.currentPiece.piece.shapeData = matrix;
+      return true;
+    } else {
+      this.currentPiece.piece.shapeData = matrix;
+      return false;
+    }
+  }
+
+  rotateCurrentPiece() {
+    if (this.canCurrentPieceRotate()) {
+      this.removeCurrentPiece();
+      let result = [];
+      for (let i = 0; i < this.currentPiece.piece.shapeData[0].length; i++) {
+        let row = this.currentPiece.piece.shapeData.map((e) => e[i]).reverse();
+        result.push(row);
+      }
+      this.currentPiece.piece.shapeData = result;
+      this.pasteCurrentPiece();
+    }
   }
 
   canCurrentPieceMoveDown() {
-    //ToDo
+    this.removeCurrentPiece();
+    this.currentPiece.y = this.currentPiece.y + 1;
+    var isPastable = this.isCurrentPiecePasteable();
+    this.currentPiece.y = this.currentPiece.y - 1;
+    this.pasteCurrentPiece();
+    return isPastable;
   }
+  tryMoveDown() {
+    if (this.canCurrentPieceMoveDown()) {
+      this.removeCurrentPiece();
+      this.currentPiece.y = this.currentPiece.y + 1;
+      this.pasteCurrentPiece();
+      this.sendUpdate();
+    } else {
+      if (!this.detectIfGameOver()) {
+        this.currentPiece.piece = new Piece.getRandomPiece();
+        this.currentPiece.x = 3;
+        this.currentPiece.y = 0;
+        this.sendUpdate();
+        return false;
+      }
+    }
+  }
+  removeCurrentPiece() {
+    var locX = this.currentPiece.x;
+    var locY = this.currentPiece.y;
 
-  removeCurrentPiece() {}
+    this.currentPiece.piece.shapeData.map((row, i) => {
+      row.map((col, j) => {
+        if (this.currentPiece.piece.shapeData[j][i] !== 0) {
+          this.data[j + locY][i + locX] = 0;
+        }
+      });
+    });
+    this.sendUpdate();
+  }
 
   isRowFull(rowNum) {
     return this.data[rowNum].includes(0) !== true;
@@ -140,9 +212,20 @@ export class Game {
   detectFullRowFromBottom() {
     for (var y = this.data.length - 1; y >= 0; y--) {
       if (this.isRowFull(y)) {
-        return y;
+        this.clearFilledRow(y);
+        // return y;
       }
     }
+    this.sendUpdate();
+  }
+
+  clearFilledRow(rowNum) {
+    var row = this.data[rowNum];
+    row.map((value, index) => {
+      this.data[rowNum][index] = 0;
+    });
+    this.moveAllBoardRowsDown(rowNum);
+    this.sendUpdate();
   }
 
   moveAllBoardRowsDown(rowNum) {
@@ -158,22 +241,39 @@ export class Game {
         });
       }
     }
+    this.score++;
+    console.log('score', this.score);
+    console.log('this.data', this.data);
     this.sendUpdate();
   }
-  // checkIfNextRowIsAvailable() {}
+  detectIfGameOver() {
+    this.data.map((row, i) => {
+      row.map((col, y) => {
+        if (this.data[0][y] !== 0) {
+          this.gameStatus = 'gameOver';
+          this.sendUpdate();
+          alert('Game Over');
+          this.resetGame();
+        }
+      });
+    });
+  }
+
+  resetGame() {
+    this.data.map((row, i) => {
+      row.map((col, j) => {
+        this.data[i][j] = 0;
+      });
+    });
+    this.score = 0;
+    this.gameStatus = 'Play';
+    this.sendUpdate();
+  }
 
   onUpdate(callback) {
     this.callback = callback;
   }
   sendUpdate() {
     this.callback();
-  }
-  checkForNewLinesCreated() {
-    //check last row is full
-    // If yes, move board to down
-    // increase score
-    // Do it until last row is not full.
-    this.data[0][0] = 'R';
-    this.sendUpdate();
   }
 }
