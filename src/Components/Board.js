@@ -28,15 +28,8 @@ class Board extends Component {
       });
     });
 
-    if (game.isCurrentPiecePasteable() === true) {
-      game.pasteCurrentPiece();
-      setInterval(() => {
-        game.removeCurrentPiece();
-        game.tryMoveDown();
-        game.detectFullRowFromBottom();
-      }, 1000);
-    }
     window.game = game;
+    game.startMainLoop();
   }
 
   onRightKeyPressEvent = () => {

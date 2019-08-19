@@ -37,8 +37,24 @@ export class Game {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 0]
     ];
+  }
+
+  startMainLoop() {
+    this.intId = setInterval(() => {
+      debugger;
+      this.mainLoop();
+    }, 1000);
+  }
+
+  mainLoop() {
+    //This will execute every tick
+    if (this.isCurrentPiecePasteable() === true) {
+      this.pasteCurrentPiece();
+      this.tryMoveDown();
+      this.clearFullRowFromBottom();
+    }
   }
 
   removeCurrentPiece() {
@@ -187,7 +203,6 @@ export class Game {
         this.currentPiece.x = 3;
         this.currentPiece.y = 0;
         this.sendUpdate();
-        return false;
       }
     }
   }
@@ -209,26 +224,31 @@ export class Game {
     return this.data[rowNum].includes(0) !== true;
   }
 
-  detectFullRowFromBottom() {
+  clearFullRowFromBottom() {
     for (var y = this.data.length - 1; y >= 0; y--) {
       if (this.isRowFull(y)) {
-        this.clearFilledRow(y);
-        // return y;
+        var rowNum = y;
+        var row = this.data[rowNum];
+        row.map((value, index) => {
+          this.data[rowNum][index] = 0;
+        });
+        this.moveAllBoardRowsDown(rowNum);
+        this.sendUpdate();
       }
     }
-    this.sendUpdate();
   }
 
-  clearFilledRow(rowNum) {
-    var row = this.data[rowNum];
-    row.map((value, index) => {
-      this.data[rowNum][index] = 0;
-    });
-    this.moveAllBoardRowsDown(rowNum);
-    this.sendUpdate();
-  }
+  // clearFilledRow(rowNum) {
+  //   var row = this.data[rowNum];
+  //   row.map((value, index) => {
+  //     this.data[rowNum][index] = 0;
+  //   });
+  //   this.moveAllBoardRowsDown(rowNum);
+  //   this.sendUpdate();
+  // }
 
   moveAllBoardRowsDown(rowNum) {
+    // console.log(this.data);
     for (let y = rowNum; y >= 0; y--) {
       var row = this.data[y];
       if (y === 0) {
@@ -242,8 +262,6 @@ export class Game {
       }
     }
     this.score++;
-    console.log('score', this.score);
-    console.log('this.data', this.data);
     this.sendUpdate();
   }
   detectIfGameOver() {
@@ -252,7 +270,7 @@ export class Game {
         if (this.data[0][y] !== 0) {
           this.gameStatus = 'gameOver';
           this.sendUpdate();
-          alert('Game Over');
+          // alert('Game Over');
           this.resetGame();
         }
       });
@@ -274,6 +292,8 @@ export class Game {
     this.callback = callback;
   }
   sendUpdate() {
-    this.callback();
+    setImmediate(() => {
+      this.callback();
+    });
   }
 }
