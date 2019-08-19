@@ -13,13 +13,7 @@ class Board extends Component {
     super();
     var game = new Game();
     this.game = game;
-    this.state = {
-      data: game.data,
-      piece: game.currentPiece.piece.shapeData,
-      score: game.score,
-      gameStatus: game.gameStatus
-    };
-    game.onUpdate(() => {
+    game.evtBus.subscribe('REFRESH_UI', () => {
       this.setState({
         data: game.data,
         piece: game.currentPiece.piece.shapeData,
@@ -27,7 +21,13 @@ class Board extends Component {
         gameStatus: game.gameStatus
       });
     });
-
+    game.startGame();
+    this.state = {
+      data: game.data,
+      piece: game.currentPiece.piece.shapeData,
+      score: game.score,
+      gameStatus: game.gameStatus
+    };
     window.game = game;
     game.startMainLoop();
   }

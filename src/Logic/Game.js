@@ -1,4 +1,17 @@
 import { Piece } from './Piece';
+import { Interval } from './Timer';
+import loopObject from 'loopobject';
+import EventBus from '@nsisodiya/eventbus';
+import keyMirror from 'keymirror';
+
+function clone(x) {
+  return JSON.parse(JSON.stringify(x));
+}
+function generateArray(l) {
+  return clone(new Array(l));
+}
+
+var GAME_STATUS = keyMirror({ PAUSE: null, RUNNING: null, ENDED: null });
 
 function makeCounting(a, b) {}
 //input a,b => 9, 4
@@ -10,35 +23,77 @@ var gameBoardDimentions = {
 };
 export class Game {
   constructor() {
+    //this.gameStatus = 'Play';
+    this.currentPiece = null;
+    this.evtBus = new EventBus();
+    this.setUpEvents();
+  }
+
+  setUpEvents() {
+    ['EVENT_GAME_OVER', 'EVENT_GAME_TICK'].forEach((evtName) => {
+      this.evtBus.subscribe(evtName, this[evtName]);
+    });
+  }
+  EVENT_GAME_OVER() {
+    console.log('EVENT GAME OVER CALLED');
+  }
+  EVENT_GAME_TICK() {
+    console.log('EVENT GAME TICK CALLED');
+  }
+  startGame() {
+    //1. Score Zero
+    this.score = 0;
+    //2. Create empty board
+    this.data = [];
+    generateArray(generateArray.height).forEach((v, y) => {
+      generateArray(generateArray.width).forEach((u, x) => {
+        console.log('this.data[y]', this.data[y]);
+        if (!Array.isArray(this.data[y])) {
+          this.data[y] = [];
+        }
+        console.log('this.data[y]', this.data[y]);
+
+        this.data[y][x] = 0;
+      });
+    });
+    //3. Generate New Piece
+    this.generateCurrentPieceWithDimensions();
+    //4.Generate Next Piece
+    this.generateNextPiece();
+    //5. Paste Current Piece
+    if (this.isCurrentPiecePasteable()) {
+      //Oh yes, it is pastable. now we will paste.
+      this.pasteCurrentPiece();
+    } else {
+      //GAME OVER
+      //TODO - fire GameOverEvent
+      this.evtBus.publish('EVENT_GAME_OVER');
+    }
+    //6. Start Game Ticker
+    this.timer = new Interval((params) => {
+      this.evtBus.publish('EVENT_GAME_TICK');
+    }, 2000);
+
+    this.status = GAME_STATUS.RUNNING;
+  }
+
+  generateCurrentPieceWithDimensions() {
+    if (this.currentPiece !== null) {
+      throw new Error('Something is wrong. Why this currentPiece is not null');
+    }
     this.currentPiece = {
       piece: new Piece.getRandomPiece(),
       x: 3,
       y: 0
     };
-    this.score = 0;
-    this.gameStatus = 'Play';
-    this.data = [
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 0]
-    ];
+  }
+
+  generateNextPiece() {
+    this.nextPiece = {
+      piece: new Piece.getRandomPiece(),
+      x: 3,
+      y: 0
+    };
   }
 
   startMainLoop() {
@@ -49,9 +104,12 @@ export class Game {
   }
 
   mainLoop() {
-    this.pasteCurrentPiece();
     this.tryMoveDown();
     this.clearFullRowFromBottom();
+  }
+
+  stopInerval() {
+    clearInterval(this.intId);
   }
 
   removeCurrentPiece() {
@@ -64,7 +122,7 @@ export class Game {
         }
       });
     });
-    this.sendUpdate();
+    this.refreshUI();
   }
   isCurrentPiecePasteable() {
     var locx = this.currentPiece.x;
@@ -75,14 +133,12 @@ export class Game {
         try {
           if (this.currentPiece.piece.shapeData[y][x] !== 0 && this.data[y + locy][x + locx] !== 0) {
             isPiecePastable = isPiecePastable && false;
-            console.log('If');
           }
         } catch (error) {
           isPiecePastable = isPiecePastable && false;
         }
       });
     });
-    console.log('isPiecePastable', isPiecePastable);
     return isPiecePastable;
   }
   pasteCurrentPiece() {
@@ -95,7 +151,7 @@ export class Game {
         }
       });
     });
-    this.sendUpdate();
+    this.refreshUI();
   }
 
   tryMoveRight() {
@@ -106,7 +162,7 @@ export class Game {
       this.currentPiece.x = this.currentPiece.x + 1;
       this.pasteCurrentPiece();
     }
-    this.sendUpdate();
+    this.refreshUI();
   }
   tryMoveLeft() {
     //1 test can it move right
@@ -116,7 +172,7 @@ export class Game {
       this.currentPiece.x = this.currentPiece.x - 1;
       this.pasteCurrentPiece();
     }
-    this.sendUpdate();
+    this.refreshUI();
   }
   canCurrentPieceMoveRight() {
     //remove piece
@@ -191,29 +247,28 @@ export class Game {
     return isPastable;
   }
 
-  tryMoveDown() {
-    if (this.canCurrentPieceMoveDown() === true) {
-      this.removeCurrentPiece();
-      this.currentPiece.y = this.currentPiece.y + 1;
-      this.pasteCurrentPiece();
-    }
-    this.sendUpdate();
-  }
   // tryMoveDown() {
-  //   if (this.canCurrentPieceMoveDown()) {
+  //   if (this.canCurrentPieceMoveDown() === true) {
   //     this.removeCurrentPiece();
   //     this.currentPiece.y = this.currentPiece.y + 1;
   //     this.pasteCurrentPiece();
-  //     this.sendUpdate();
-  //   } else {
-  //     if (!this.detectIfGameOver()) {
-  //       this.currentPiece.piece = new Piece.getRandomPiece();
-  //       this.currentPiece.x = 3;
-  //       this.currentPiece.y = 0;
-  //       this.sendUpdate();
-  //     }
   //   }
+  //   console.log(this.data);
+  //   this.refreshUI();
   // }
+  tryMoveDown() {
+    if (this.canCurrentPieceMoveDown()) {
+      this.removeCurrentPiece();
+      this.currentPiece.y = this.currentPiece.y + 1;
+      this.pasteCurrentPiece();
+      this.refreshUI();
+    } else {
+      if (!this.detectIfGameOver()) {
+        this.generateCurrentPieceWithDimentions();
+        this.refreshUI();
+      }
+    }
+  }
   removeCurrentPiece() {
     var locX = this.currentPiece.x;
     var locY = this.currentPiece.y;
@@ -225,7 +280,7 @@ export class Game {
         }
       });
     });
-    this.sendUpdate();
+    this.refreshUI();
   }
 
   isRowFull(rowNum) {
@@ -233,6 +288,7 @@ export class Game {
   }
 
   clearFullRowFromBottom() {
+    // console.log(this.data);
     for (var y = this.data.length - 1; y >= 0; y--) {
       if (this.isRowFull(y)) {
         var rowNum = y;
@@ -241,20 +297,10 @@ export class Game {
           this.data[rowNum][index] = 0;
         });
         this.moveAllBoardRowsDown(rowNum);
-        this.sendUpdate();
+        this.refreshUI();
       }
     }
   }
-
-  // clearFilledRow(rowNum) {
-  //   var row = this.data[rowNum];
-  //   row.map((value, index) => {
-  //     this.data[rowNum][index] = 0;
-  //   });
-  //   this.moveAllBoardRowsDown(rowNum);
-  //   this.sendUpdate();
-  // }
-
   moveAllBoardRowsDown(rowNum) {
     // console.log(this.data);
     for (let y = rowNum; y >= 0; y--) {
@@ -265,19 +311,21 @@ export class Game {
         });
       } else {
         row.map((col, x) => {
+          // console.log('before', this.data);
           this.data[y][x] = this.data[y - 1][x];
+          // console.log('after', this.data);
         });
       }
     }
     this.score++;
-    // this.sendUpdate();
+    // this.refreshUI();
   }
   detectIfGameOver() {
     this.data.map((row, i) => {
       row.map((col, y) => {
         if (this.data[0][y] !== 0) {
           this.gameStatus = 'gameOver';
-          this.sendUpdate();
+          this.refreshUI();
           // alert('Game Over');
           this.resetGame();
         }
@@ -293,15 +341,15 @@ export class Game {
     });
     this.score = 0;
     this.gameStatus = 'Play';
-    this.sendUpdate();
+    this.refreshUI();
   }
 
-  onUpdate(callback) {
-    this.callback = callback;
+  gameOver() {
+    this.timer.switchTimer(this.status);
   }
-  sendUpdate() {
+  refreshUI() {
     setImmediate(() => {
-      this.callback();
+      this.evtBus.publish('REFRESH_UI');
     });
   }
 }
