@@ -36,16 +36,24 @@ class Board extends Component {
   }
 
   onRightKeyPressEvent = () => {
-    this.game.tryMoveRight();
+    if (!this.isPaused) {
+      this.game.tryMoveRight();
+    }
   };
   onLeftKeyPressEvent = () => {
-    this.game.tryMoveLeft();
+    if (!this.isPaused) {
+      this.game.tryMoveLeft();
+    }
   };
   onDownKeyPressEvent = () => {
-    this.game.tryMoveDown();
+    if (!this.isPaused) {
+      this.game.tryMoveDown();
+    }
   };
   onUpKeyPressEvent = () => {
-    this.game.rotateCurrentPiece();
+    if (!this.isPaused) {
+      this.game.rotateCurrentPiece();
+    }
   };
   pauseGame = () => {
     if (!this.isPaused) {

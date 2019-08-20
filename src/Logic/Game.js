@@ -44,7 +44,7 @@ export class Game {
   }
   EVENT_GAME_TICK() {
     if (this.currentPiece) {
-      this.pasteCurrentPiece();
+      // this.pasteCurrentPiece();
       this.tryMoveDown();
       if (!this.canCurrentPieceMoveDown) {
         this.gameStuck();
