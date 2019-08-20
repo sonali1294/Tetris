@@ -23,7 +23,6 @@ var gameBoardDimentions = {
 };
 export class Game {
   constructor() {
-    //this.gameStatus = 'Play';
     this.currentPiece = null;
     this.evtBus = new EventBus();
     this.setUpEvents();
@@ -31,19 +30,41 @@ export class Game {
 
   setUpEvents() {
     ['EVENT_GAME_OVER', 'EVENT_GAME_TICK'].forEach((evtName) => {
-      this.evtBus.subscribe(evtName, this[evtName]);
+      this.evtBus.subscribe(evtName, this[evtName].bind(this));
     });
   }
   EVENT_GAME_OVER() {
+    this.timer.end();
+    alert('GAME OVER');
+    this.generateBoard();
+    this.currentPiece = null;
+    this.score = 0;
+    this.startGame();
     console.log('EVENT GAME OVER CALLED');
   }
   EVENT_GAME_TICK() {
-    console.log('EVENT GAME TICK CALLED');
+    if (this.currentPiece) {
+      this.pasteCurrentPiece();
+      this.tryMoveDown();
+      if (!this.canCurrentPieceMoveDown) {
+        this.gameStuck();
+      }
+    }
   }
-  startGame() {
-    //1. Score Zero
-    this.score = 0;
-    //2. Create empty board
+
+  gameStuck() {
+    this.currentPiece = null;
+    this.clearFullRowFromBottom();
+    this.currentPiece = this.nextPiece;
+    // console.log(this.isCurrentPiecePasteable());
+    if (!this.isCurrentPiecePasteable()) {
+      this.evtBus.publish('EVENT_GAME_OVER');
+    } else {
+      this.pasteCurrentPiece();
+    }
+    this.generateNextPiece();
+  }
+  generateBoard() {
     this.data = [];
     generateArray(gameBoardDimentions.height).forEach((v, y) => {
       generateArray(gameBoardDimentions.width).forEach((u, x) => {
@@ -54,6 +75,12 @@ export class Game {
         this.data[y][x] = 0;
       });
     });
+  }
+  startGame() {
+    //1. Score Zero
+    this.score = 0;
+    //2. Create empty board
+    this.generateBoard();
     //3. Generate New Piece
     this.generateCurrentPieceWithDimensions();
     //4.Generate Next Piece
@@ -63,6 +90,7 @@ export class Game {
       //Oh yes, it is pastable. now we will paste.
       this.pasteCurrentPiece();
     } else {
+      console.log('game over');
       //GAME OVER
       //TODO - fire GameOverEvent
       this.evtBus.publish('EVENT_GAME_OVER');
@@ -70,12 +98,23 @@ export class Game {
     //6. Start Game Ticker
     this.timer = new Interval(() => {
       this.evtBus.publish('EVENT_GAME_TICK');
-    }, 2000);
-    console.log(this.timer);
+    }, 1000);
+    // console.log(this.timer);
     this.timer.start();
     this.status = GAME_STATUS.RUNNING;
   }
+  pauseGame() {
+    this.timer.pause();
+  }
 
+  resumeGame() {
+    this.timer.resume();
+  }
+  restartGame() {
+    this.currentPiece = null;
+    this.timer.end();
+    this.startGame();
+  }
   generateCurrentPieceWithDimensions() {
     if (this.currentPiece !== null) {
       throw new Error('Something is wrong. Why this currentPiece is not null');
@@ -96,22 +135,6 @@ export class Game {
     };
     return this.nextPiece;
   }
-
-  // startMainLoop() {
-  //   this.pasteCurrentPiece();
-  //   this.intId = setInterval(() => {
-  //     this.mainLoop();
-  //   }, 1000);
-  // }
-
-  // mainLoop() {
-  //   this.tryMoveDown();
-  //   this.clearFullRowFromBottom();
-  // }
-
-  // stopInerval() {
-  //   clearInterval(this.intId);
-  // }
 
   removeCurrentPiece() {
     var locx = this.currentPiece.x;
@@ -259,13 +282,14 @@ export class Game {
   //   this.refreshUI();
   // }
   tryMoveDown() {
+    // console.log(this.canCurrentPieceMoveDown());
     if (this.canCurrentPieceMoveDown()) {
       this.removeCurrentPiece();
       this.currentPiece.y = this.currentPiece.y + 1;
       this.pasteCurrentPiece();
     } else {
-      this.currentPiece = this.nextPiece;
-      this.generateNextPiece();
+      // console.log('trymovedown else');
+      this.gameStuck();
     }
     this.refreshUI();
   }
@@ -288,21 +312,19 @@ export class Game {
   }
 
   clearFullRowFromBottom() {
-    // console.log(this.data);
+    var arr = [];
     for (var y = this.data.length - 1; y >= 0; y--) {
       if (this.isRowFull(y)) {
-        var rowNum = y;
-        var row = this.data[rowNum];
-        row.map((value, index) => {
-          this.data[rowNum][index] = 0;
-        });
-        this.moveAllBoardRowsDown(rowNum);
-        this.refreshUI();
+        arr.push(y);
       }
     }
+    arr.reverse().map((value, index) => {
+      this.moveAllBoardRowsDown(value);
+    });
+    this.refreshUI();
   }
   moveAllBoardRowsDown(rowNum) {
-    // console.log(this.data);
+    // console.log();
     for (let y = rowNum; y >= 0; y--) {
       var row = this.data[y];
       if (y === 0) {
@@ -318,7 +340,7 @@ export class Game {
       }
     }
     this.score++;
-    // this.refreshUI();
+    this.refreshUI();
   }
   detectIfGameOver() {
     this.data.map((row, i) => {

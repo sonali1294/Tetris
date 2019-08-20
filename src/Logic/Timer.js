@@ -5,20 +5,15 @@ export class Interval {
   constructor(callback, time) {
     debugger;
     this.time = time;
-    console.log(callback);
     this.callback = callback;
-    // this.callback = callback.bind(this);
     this.state = TIMER_STATE.NOT_STARTED;
-    console.log(this.callback);
   }
   internalCallback() {
     //this will execute every time.
-    console.log('internalCallback');
     this.lastCallbackStartTime = Date.now(); //1566217326282
     this.callback();
   }
   start() {
-    console.log('start');
     this.cID = setInterval(this.internalCallback.bind(this), this.time);
     this.state = TIMER_STATE.RUNNING;
   }
@@ -36,7 +31,7 @@ export class Interval {
     this.state = TIMER_STATE.PAUSED;
   }
   resume() {
-    setTimeout(this.reStartTimer, this.timeRemaining);
+    setTimeout(this.reStartTimer.bind(this), this.timeRemaining);
   }
 }
 /**

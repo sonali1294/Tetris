@@ -1,5 +1,6 @@
 var possibleColors = ['red', 'green', 'blue', 'purple', 'orange', 'yellow'];
 var possibleShapes = ['z', 's', 'l', 'o', 't', 'p', 'i', 'j'];
+// var possibleShapes = ['i'];
 
 export class Piece {
   constructor(type, color) {

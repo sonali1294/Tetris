@@ -13,6 +13,7 @@ class Board extends Component {
     super();
     var game = new Game();
     this.game = game;
+    this.isPaused = false;
     game.evtBus.subscribe('REFRESH_UI', () => {
       this.setState({
         data: game.data,
@@ -45,6 +46,22 @@ class Board extends Component {
   };
   onUpKeyPressEvent = () => {
     this.game.rotateCurrentPiece();
+  };
+  pauseGame = () => {
+    if (!this.isPaused) {
+      this.isPaused = true;
+      this.game.pauseGame();
+    }
+  };
+  resumeGame = () => {
+    if (this.isPaused) {
+      this.game.resumeGame();
+      this.isPaused = false;
+    }
+  };
+  restartGame = () => {
+    this.isPaused = false;
+    this.game.restartGame();
   };
 
   setColours = (num) => {
@@ -90,8 +107,6 @@ class Board extends Component {
               <br />
               <strong>SCORE : {this.state.score}</strong>
               <br />
-              <strong>STATUS : {this.state.gameStatus}</strong>
-              <br />
             </div>
             <p>Current Shape</p>
             <table>
@@ -117,6 +132,17 @@ class Board extends Component {
                 ))}
               </tbody>
             </table>
+            <div>
+              <button className='button' onClick={this.pauseGame}>
+                Pause
+              </button>
+              <button className='button' onClick={this.resumeGame}>
+                Resume
+              </button>
+              <button className='button' onClick={this.restartGame}>
+                Restart
+              </button>
+            </div>
           </div>
         </HotKeys>
       </div>
