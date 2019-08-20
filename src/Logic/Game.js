@@ -45,14 +45,12 @@ export class Game {
     this.score = 0;
     //2. Create empty board
     this.data = [];
-    generateArray(generateArray.height).forEach((v, y) => {
-      generateArray(generateArray.width).forEach((u, x) => {
+    generateArray(gameBoardDimentions.height).forEach((v, y) => {
+      generateArray(gameBoardDimentions.width).forEach((u, x) => {
         console.log('this.data[y]', this.data[y]);
         if (!Array.isArray(this.data[y])) {
           this.data[y] = [];
         }
-        console.log('this.data[y]', this.data[y]);
-
         this.data[y][x] = 0;
       });
     });
@@ -142,6 +140,7 @@ export class Game {
     return isPiecePastable;
   }
   pasteCurrentPiece() {
+    console.log(this.data);
     var locx = this.currentPiece.x;
     var locy = this.currentPiece.y;
     this.currentPiece.piece.shapeData.map((row, x) => {
