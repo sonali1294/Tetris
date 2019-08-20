@@ -17,6 +17,7 @@ class Board extends Component {
       this.setState({
         data: game.data,
         piece: game.currentPiece.piece.shapeData,
+        nextPiece: game.nextPiece.piece.shapeData,
         score: game.score,
         gameStatus: game.gameStatus
       });
@@ -25,11 +26,12 @@ class Board extends Component {
     this.state = {
       data: game.data,
       piece: game.currentPiece.piece.shapeData,
+      nextPiece: game.nextPiece.piece.shapeData,
       score: game.score,
       gameStatus: game.gameStatus
     };
     window.game = game;
-    game.startMainLoop();
+    // game.startMainLoop();
   }
 
   onRightKeyPressEvent = () => {
@@ -60,7 +62,7 @@ class Board extends Component {
 
   render() {
     return (
-      <div>
+      <div id='wrapper'>
         <HotKeys
           keyMap={keyMap}
           handlers={{
@@ -69,37 +71,53 @@ class Board extends Component {
             UP_KEY: this.onUpKeyPressEvent,
             DOWN_KEY: this.onDownKeyPressEvent
           }}>
-          <table>
-            <tbody>
-              {this.state.data.map((numList, i) => (
-                <tr key={i}>
-                  {numList.map((num, j) => (
-                    <td className={`block ${this.setColours(num)}`} key={j} />
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <br />
-          <div>
-            <br />
-            <strong>SCORE : {this.state.score}</strong>
-            <br />
-            <strong>STATUS : {this.state.gameStatus}</strong>
-            <br />
+          <div id='leftcolumn'>
+            <table>
+              <tbody>
+                {this.state.data.map((numList, i) => (
+                  <tr key={i}>
+                    {numList.map((num, j) => (
+                      <td className={`block ${this.setColours(num)}`} key={j} />
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <p>Current Shape</p>
-          <table>
-            <tbody>
-              {this.state.piece.map((numList, i) => (
-                <tr key={i}>
-                  {numList.map((num, j) => (
-                    <td className={`block ${this.setColours(num)}`} key={j} />
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div id='rightcolumn'>
+            <br />
+            <div>
+              <br />
+              <strong>SCORE : {this.state.score}</strong>
+              <br />
+              <strong>STATUS : {this.state.gameStatus}</strong>
+              <br />
+            </div>
+            <p>Current Shape</p>
+            <table>
+              <tbody>
+                {this.state.piece.map((numList, i) => (
+                  <tr key={i}>
+                    {numList.map((num, j) => (
+                      <td className={`block ${this.setColours(num)}`} key={j} />
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p>Next Shape</p>
+            <table>
+              <tbody>
+                {this.state.nextPiece.map((numList, i) => (
+                  <tr key={i}>
+                    {numList.map((num, j) => (
+                      <td className={`block ${this.setColours(num)}`} key={j} />
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </HotKeys>
       </div>
     );

@@ -3,17 +3,23 @@ var TIMER_STATE = keyMirror({ NOT_STARTED: null, RUNNING: null, PAUSED: null, EN
 
 export class Interval {
   constructor(callback, time) {
+    debugger;
     this.time = time;
+    console.log(callback);
     this.callback = callback;
+    // this.callback = callback.bind(this);
     this.state = TIMER_STATE.NOT_STARTED;
+    console.log(this.callback);
   }
   internalCallback() {
     //this will execute every time.
+    console.log('internalCallback');
     this.lastCallbackStartTime = Date.now(); //1566217326282
     this.callback();
   }
   start() {
-    this.cID = setInterval(this.internalCallback, this.time);
+    console.log('start');
+    this.cID = setInterval(this.internalCallback.bind(this), this.time);
     this.state = TIMER_STATE.RUNNING;
   }
   reStartTimer() {

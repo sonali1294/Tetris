@@ -35,3 +35,24 @@ table {
 .blueClass {
   background-color: blue;
 }
+
+#wrapper  {
+  width: 1005px;
+  margin: 0 auto;
+}
+
+#leftcolumn,
+#rightcolumn  {
+  border: 1px solid white;
+  float: left;
+  min-height: 450px;
+  color: white;
+}
+
+#leftcolumn  {
+  width: 250px;
+}
+
+#rightcolumn  {
+  width: 750px;
+}

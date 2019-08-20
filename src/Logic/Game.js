@@ -47,7 +47,7 @@ export class Game {
     this.data = [];
     generateArray(gameBoardDimentions.height).forEach((v, y) => {
       generateArray(gameBoardDimentions.width).forEach((u, x) => {
-        console.log('this.data[y]', this.data[y]);
+        // console.log('this.data[y]', this.data[y]);
         if (!Array.isArray(this.data[y])) {
           this.data[y] = [];
         }
@@ -68,10 +68,11 @@ export class Game {
       this.evtBus.publish('EVENT_GAME_OVER');
     }
     //6. Start Game Ticker
-    this.timer = new Interval((params) => {
+    this.timer = new Interval(() => {
       this.evtBus.publish('EVENT_GAME_TICK');
     }, 2000);
-
+    console.log(this.timer);
+    this.timer.start();
     this.status = GAME_STATUS.RUNNING;
   }
 
@@ -79,11 +80,12 @@ export class Game {
     if (this.currentPiece !== null) {
       throw new Error('Something is wrong. Why this currentPiece is not null');
     }
-    this.currentPiece = {
-      piece: new Piece.getRandomPiece(),
-      x: 3,
-      y: 0
-    };
+    // this.currentPiece = {
+    //   piece: new Piece.getRandomPiece(),
+    //   x: 3,
+    //   y: 0
+    // };
+    this.currentPiece = this.generateNextPiece();
   }
 
   generateNextPiece() {
@@ -92,23 +94,24 @@ export class Game {
       x: 3,
       y: 0
     };
+    return this.nextPiece;
   }
 
-  startMainLoop() {
-    this.pasteCurrentPiece();
-    this.intId = setInterval(() => {
-      this.mainLoop();
-    }, 1000);
-  }
+  // startMainLoop() {
+  //   this.pasteCurrentPiece();
+  //   this.intId = setInterval(() => {
+  //     this.mainLoop();
+  //   }, 1000);
+  // }
 
-  mainLoop() {
-    this.tryMoveDown();
-    this.clearFullRowFromBottom();
-  }
+  // mainLoop() {
+  //   this.tryMoveDown();
+  //   this.clearFullRowFromBottom();
+  // }
 
-  stopInerval() {
-    clearInterval(this.intId);
-  }
+  // stopInerval() {
+  //   clearInterval(this.intId);
+  // }
 
   removeCurrentPiece() {
     var locx = this.currentPiece.x;
@@ -140,7 +143,7 @@ export class Game {
     return isPiecePastable;
   }
   pasteCurrentPiece() {
-    console.log(this.data);
+    // console.log(this.data);
     var locx = this.currentPiece.x;
     var locy = this.currentPiece.y;
     this.currentPiece.piece.shapeData.map((row, x) => {
@@ -260,13 +263,11 @@ export class Game {
       this.removeCurrentPiece();
       this.currentPiece.y = this.currentPiece.y + 1;
       this.pasteCurrentPiece();
-      this.refreshUI();
     } else {
-      if (!this.detectIfGameOver()) {
-        this.generateCurrentPieceWithDimentions();
-        this.refreshUI();
-      }
+      this.currentPiece = this.nextPiece;
+      this.generateNextPiece();
     }
+    this.refreshUI();
   }
   removeCurrentPiece() {
     var locX = this.currentPiece.x;
