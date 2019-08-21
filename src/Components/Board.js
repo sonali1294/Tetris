@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { Game } from '../Logic/Game';
 // import { Piece } from '../Logic/Piece';
 import { HotKeys } from 'react-hotkeys';
@@ -35,6 +36,13 @@ class Board extends Component {
     };
     window.game = game;
     // game.startMainLoop();
+  }
+  componentDidMount() {
+    this.setFocus();
+  }
+
+  setFocus() {
+    ReactDOM.findDOMNode(this.refs.myRef).focus();
   }
 
   onRightKeyPressEvent = () => {
@@ -75,7 +83,7 @@ class Board extends Component {
   };
 
   onConfirm = () => {
-    this.game.onConfirm();
+    window.location.reload();
   };
 
   setColours = (num) => {
@@ -95,6 +103,7 @@ class Board extends Component {
     return (
       <div className='container'>
         <HotKeys
+          ref='myRef'
           keyMap={keyMap}
           handlers={{
             RIGHT_KEY: this.onRightKeyPressEvent,
@@ -102,7 +111,7 @@ class Board extends Component {
             UP_KEY: this.onUpKeyPressEvent,
             DOWN_KEY: this.onDownKeyPressEvent
           }}>
-          <SweetAlert show={this.game.show} title='Ooopss!!' text='.Game Over.' onConfirm={this.onConfirm} />
+          <SweetAlert show={this.game.show} title='Ooopss..!! Game Over.' onConfirm={this.onConfirm} />
           <div className='box'>
             <div className='box-row'>
               <div className='box-cell box1'>
