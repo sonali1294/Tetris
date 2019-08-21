@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Game } from '../Logic/Game';
 // import { Piece } from '../Logic/Piece';
 import { HotKeys } from 'react-hotkeys';
+import SweetAlert from 'sweetalert-react';
+
 const keyMap = {
   RIGHT_KEY: 'right',
   LEFT_KEY: 'left',
@@ -72,6 +74,10 @@ class Board extends Component {
     this.game.restartGame();
   };
 
+  onConfirm = () => {
+    this.game.onConfirm();
+  };
+
   setColours = (num) => {
     var colorSymbolToClassMap = {
       R: 'redClass',
@@ -96,6 +102,7 @@ class Board extends Component {
             UP_KEY: this.onUpKeyPressEvent,
             DOWN_KEY: this.onDownKeyPressEvent
           }}>
+          <SweetAlert show={this.game.show} title='Ooopss!!' text='.Game Over.' onConfirm={this.onConfirm} />
           <div className='box'>
             <div className='box-row'>
               <div className='box-cell box1'>

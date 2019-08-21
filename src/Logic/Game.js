@@ -25,6 +25,7 @@ export class Game {
   constructor() {
     this.currentPiece = null;
     this.evtBus = new EventBus();
+    this.show = false;
     this.setUpEvents();
   }
 
@@ -35,11 +36,9 @@ export class Game {
   }
   EVENT_GAME_OVER() {
     this.timer.end();
-    alert('GAME OVER');
-    this.generateBoard();
-    this.currentPiece = null;
-    this.score = 0;
-    this.startGame();
+    this.show = true;
+    // alert('GAME OVER');
+
     console.log('EVENT GAME OVER CALLED');
   }
   EVENT_GAME_TICK() {
@@ -114,6 +113,14 @@ export class Game {
   restartGame() {
     this.currentPiece = null;
     this.timer.end();
+    this.startGame();
+  }
+
+  onConfirm() {
+    this.show = false;
+    this.generateBoard();
+    this.currentPiece = null;
+    this.score = 0;
     this.startGame();
   }
   generateCurrentPieceWithDimensions() {
