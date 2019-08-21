@@ -111,7 +111,12 @@ class Board extends Component {
             UP_KEY: this.onUpKeyPressEvent,
             DOWN_KEY: this.onDownKeyPressEvent
           }}>
-          <SweetAlert show={this.game.show} title='Ooopss..!! Game Over.' onConfirm={this.onConfirm} />
+          <SweetAlert
+            show={this.game.show}
+            title='Ooopss..!! Game Over.'
+            text={'Your Score: ' + this.game.score}
+            onConfirm={this.onConfirm}
+          />
           <div className='box'>
             <div className='box-row'>
               <div className='box-cell box1'>
