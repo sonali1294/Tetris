@@ -3,7 +3,6 @@ var TIMER_STATE = keyMirror({ NOT_STARTED: null, RUNNING: null, PAUSED: null, EN
 
 export class Interval {
   constructor(callback, time) {
-    debugger;
     this.time = time;
     this.callback = callback;
     this.state = TIMER_STATE.NOT_STARTED;

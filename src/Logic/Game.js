@@ -64,6 +64,7 @@ export class Game {
     }
     this.generateNextPiece();
   }
+
   generateBoard() {
     this.data = [];
     generateArray(gameBoardDimentions.height).forEach((v, y) => {
