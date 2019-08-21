@@ -1,9 +1,18 @@
 td {
-  border: 0.5px solid;
+  /* border: 0.5px solid; */
 }
 table {
   /* width:300px;
   height:500px; */
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+  border: 0.5px solid gray;
+}
+
+table td {
+  border: 0.5px solid gray;
+  border-style: outset;
 }
 .redClass {
   background-color: red;
@@ -16,7 +25,7 @@ table {
 .block {
   width: 25px;
   height: 25px;
-  border: 0.1px solid #222222;
+  /* border: 0.1px solid #222222; */
 }
 
 .blackClass {
@@ -34,4 +43,61 @@ table {
 }
 .blueClass {
   background-color: blue;
+}
+
+.button {
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.score {
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+.container {
+  width: 100%;
+  display: table;
+  background-image: url('./Tetris_img.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.box {
+  margin: auto;
+  width: 50%;
+  border-radius: 25px;
+  /* border: 2px solid #73ad21; */
+}
+.box .box-row {
+  display: table-row;
+}
+.box .box-cell {
+  display: table-cell;
+}
+
+.box-cell.box1 {
+  text-align: center;
+  background: #4a4a4a;
+  width: 25%;
+}
+.box-cell.box2 {
+  text-align: center;
+  background: #4a4a4a;
+  width: 25%;
 }

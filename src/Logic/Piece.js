@@ -1,5 +1,6 @@
 var possibleColors = ['red', 'green', 'blue', 'purple', 'orange', 'yellow'];
 var possibleShapes = ['z', 's', 'l', 'o', 't', 'p', 'i', 'j'];
+// var possibleShapes = ['i'];
 
 export class Piece {
   constructor(type, color) {
@@ -14,7 +15,7 @@ export class Piece {
         this.shapeData = [[0, 1, 0], [0, 1, 0], [1, 1, 0]];
         break;
       case 't':
-        this.shapeData = [[0, 0, 0], [1, 1, 1], [0, 1, 0]];
+        this.shapeData = [[0, 1, 0], [1, 1, 1], [0, 0, 0]];
         break;
       case 'l':
         this.shapeData = [[0, 1, 0], [0, 1, 0], [0, 1, 1]];
